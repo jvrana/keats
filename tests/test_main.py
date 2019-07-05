@@ -26,7 +26,7 @@ def test_version_json(fake_keats):
 
     version_path = fake_keats._version_py()
     assert not isfile(version_path)
-    fake_keats.up()
+    fake_keats.md()
     assert isfile(version_path)
 
     pkg_info = fake_keats.info()

@@ -3,11 +3,8 @@ import toml
 from os.path import join, abspath, dirname, isfile, isdir
 import fire
 from warnings import warn
-from .version import __version__
-from .update_change_log import update_changelog_interactive
-from termcolor import cprint
-from .changelog import ChangeLog
-
+from .version import __version__, __name__
+from .changelog import update_changelog_interactive, save_to_markdown
 
 PYPROJECT = "pyproject.toml"
 RED = "\u001b[31m"
@@ -19,14 +16,11 @@ def err(msg):
     return RED + msg + RESET
 
 
-here = abspath(dirname(__file__))
-
-
-class Keats(object):
-    def __init__(self, directory=os.getcwd(), filename=PYPROJECT):
-        self._path = join(directory, filename)
-        self._directory = directory
-        if not isfile(self._path):
+class Path(object):
+    def __init__(self, directory, filename):
+        self.path = join(directory, filename)
+        self.directory = directory
+        if not isfile(self.path):
             warn(
                 err(
                     "Cannot run keats. No {} file found in currenct directory.".format(
@@ -35,43 +29,49 @@ class Keats(object):
                 )
             )
 
-    def _keats(self):
-        return self.__class__(here)
-
     @property
     def config(self):
-        return toml.load(self._path)
+        """
+        Return the toml file information.
 
-    def _local_pkg_path(self):
-        return self._local_path(self.package())
+        :return:
+        :rtype:
+        """
+        return toml.load(self.path)
 
-    def _local_test_path(self):
-        return self._local_path("tests")
+    def config_info(self):
+        toml_info = dict(self.config["tool"]["poetry"])
+        pkg_info = {
+            "version": toml_info["version"],
+            "name": toml_info["name"],
+            "title": toml_info["name"],
+            "authors": toml_info.get("authors", list()),
+            "repo": toml_info.get("repo", None),
+            "homepage": toml_info.get("homepage", None),
+            "description": toml_info.get("description", None),
+        }
+        return pkg_info
 
-    def _local_path(self, path):
-        return abspath(join(self._directory, path))
+    def version_py(self):
+        return join(self.pkg_path(), VERSIONPY)
 
-    def _get(self, key):
-        return self.config["tool"]["poetry"].get(key, None)
+    def local_path(self, path):
+        return abspath(join(self.directory, path))
 
-    def _cmd(self, cmd):
-        cline = "(cd {}; poetry run {})".format(self._directory, cmd)
-        os.system(cline)
+    def pkg_path(self):
+        return self.local_path(self.package())
 
-    def _script(self, name):
-        os.system("sh {}".format(join(here, "..", "keat_scripts", name)))
-
-    def release(self):
-        return self._script("release.sh")
-
-    def document(self):
-        return
-
-    def format(self):
-        paths = [self._local_path(p) for p in self.packages() + ["tests"]]
-        self._cmd(" ".join(["black"] + paths))
+    def test_path(self):
+        return self.local_path("tests")
 
     def packages(self):
+        """
+        Return all listed packaged in the pyproject.toml file. Note that this
+        does not consider * files.
+
+        :return: list of package names
+        :rtype: list
+        """
         if "packages" in self.config["tool"]["poetry"]:
             pkgs = []
             for pkg in self.config["tool"]["poetry"]["packages"]:
@@ -84,19 +84,59 @@ class Keats(object):
         return pkgs
 
     def package(self):
+        """
+        Return the estimated main package from the pyproject.toml file.
+
+        :return: version
+        :rtype: basestring
+        """
         return self.packages()[0]
 
-    def version(self):
-        return self._get("version")
+    def run_cmd(self, *cmd):
+        cline = "(cd {}; {})".format(self.directory, " ".join(cmd))
+        print(cline)
+        return os.system(cline)
 
-    def authors(self):
-        return self._get("authors")
+    def run_poetry_cmd(self, *cmd):
+        return self.run_cmd("poetry run", *cmd)
 
-    def up(self, version=None):
-        if version is None:
-            self._write()
-        else:
-            self.bump(version)
+
+class Base(object):
+    def __init__(self, path):
+        self._path = path
+
+    def _cmd(self, *cmd):
+        return self._path.run_cmd(*cmd)
+
+    def _get(self, key):
+        return self._path.config["tool"]["poetry"].get(key, None)
+
+
+class Run(Base):
+    def format(self):
+        """
+        Run the format script.
+
+        :return:
+        :rtype:
+        """
+        paths = [self._path.local_path(p) for p in self._path.packages() + ["tests"]]
+        self._cmd(" ".join(["black"] + paths))
+
+    def _script(self, name):
+        here = abspath(dirname(__file__))
+        return join(here, "..", "keat_scripts", name)
+
+    def release(self):
+        self._cmd("sh {}".format(self._script("release.sh")))
+
+    def document(self):
+        pass
+
+
+class Version(Base):
+    def v(self):
+        return self._get("name") + " " + self._get("version")
 
     def bump(self, version=None):
         if version is None:
@@ -104,26 +144,25 @@ class Keats(object):
         else:
             self._cmd("poetry version {}".format(version))
         self._write()
-        return self.changelog().add
 
-    def _version_py(self):
-        return join(self._local_pkg_path(), VERSIONPY)
+    def up(self, version=None):
+        """
+        Update the package version from the pyproject.toml file.
 
-    def info(self):
-        toml_info = dict(self.config["tool"]["poetry"])
-        pkg_info = {
-            "version": toml_info["version"],
-            "name": toml_info["name"],
-            "authors": toml_info.get("authors", list()),
-            "repo": toml_info.get("repo", None),
-            "homepage": toml_info.get("homepage", None),
-            "description": toml_info.get("description", None),
-        }
-        return pkg_info
+        :param version: if provided, bump the version number (optional)
+        :type version: basestring
+        :return: the version
+        :rtype: basestring
+        """
+        if version is None:
+            self._write()
+        else:
+            self.bump(version)
+        return self._get("version")
 
     def _write(self, with_confirm=False):
-        pkg_info = self.info()
-        path = self._version_py()
+        pkg_info = self._path.config_info()
+        path = self._path.version_py()
         if with_confirm:
             ans = input("Write to '{}'?".format(path))
         else:
@@ -142,8 +181,81 @@ class Keats(object):
         else:
             print("no files written")
 
+
+class ChangeLog(Base):
+    @property
+    def _dir(self):
+        d = join(self._path.directory, ".keats")
+        if not isdir(d):
+            os.mkdir(d)
+        return d
+
+    @property
+    def _json(self):
+        return join(self._dir, "changelog.json")
+
+    @property
+    def _markdown(self):
+        return join(self._dir, "changelog.md")
+
+    def md(self):
+        """Save changelog to a markdown file."""
+        save_to_markdown(self._json, self._markdown)
+
+    def clear(self):
+        """Clear the changelog files."""
+        print(self._json)
+        if isfile(self._json):
+            os.remove(self._json)
+        if isfile(self._markdown):
+            os.remove(self._markdown)
+
+    def new(self):
+        """Interactively add a changelog entry. Entries are located in the '.keats' folder."""
+        update_changelog_interactive(
+            self._get("version"), self._json, self._markdown, self._path.package()
+        )
+
+
+class Keats(object):
+    def __init__(self, directory=os.getcwd(), filename=PYPROJECT):
+        self.path = Path(directory, filename)
+
+    def info(self):
+        """
+        Return package information from the toml file.
+
+        :return:
+        :rtype:
+        """
+        return self.path.config_info()
+
+    def v(self):
+        """
+        Return the keats version number.
+        :return:
+        :rtype:
+        """
+        return __name__ + " " + __version__
+
+    def package(self):
+        return self.path.package()
+
+    def packages(self):
+        return self.path.packages()
+
+    def version(self):
+        return Version(self.path)
+
     def changelog(self):
-        return ChangeLog(self)
+        return ChangeLog(self.path)
+
+    def run(self):
+        return Run(self.path)
+
+    def bump(self, version=None):
+        self.version().bump(version)
+        self.changelog().new()
 
 
 def main():

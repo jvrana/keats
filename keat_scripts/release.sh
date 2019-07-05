@@ -2,7 +2,7 @@
 
 EMOJI="\xE2\x9C\xA8 \xF0\x9F\x8C\xB2 \xE2\x9C\xA8"
 SEP="*****"
-CURRENT=$(poetry run keats version)
+CURRENT=$(poetry run keats version v)
 NAME=$(poetry run keats package)
 COLOR="\e[1;31m"
 CINPUT="\e[32m"
@@ -64,7 +64,7 @@ printf "\n$SEP formatting code $SEP\n"
 
 msg="$PREFIX - formatting for release $VERSION"
 printf "$CINFO $msg $END\n"
-poetry run keats format
+poetry run keats run format
 if [ "$COMMIT" == 1 ]; then
     git add .
     git commit -m "$msg"
@@ -81,7 +81,7 @@ printf "\n$SEP updating documentation $SEP\n"
 msg="$PREFIX - updating docs for release $VERSION "
 printf "$CINFO $msg $END\n"
 printf $msg
-poetry run keats document
+poetry run keats run document
 
 if [ "$COMMIT" == 1 ]; then
     git add .

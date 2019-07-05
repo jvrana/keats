@@ -91,32 +91,3 @@ def update_changelog_interactive(version, changelogpath, markdownpath, title="")
         change_input = input("List a change (ENTER to finish): ").strip()
     update(version, description, changes, changelogpath)
     save_to_markdown(changelogpath, markdownpath, title=title)
-
-
-class ChangeLog(object):
-    def __init__(self, keats):
-        self._keats = keats
-        log_dir = join(keats._directory, ".keats")
-        if not isdir(log_dir):
-            mkdir(log_dir)
-        self._directory = log_dir
-
-    def _json(self):
-        return join(self._directory, "changelog.json")
-
-    def _markdown(self):
-        return join(self._directory, "changelog.md")
-
-    def up(self):
-        save_to_markdown(self._json(), self._markdown())
-
-    def clear(self):
-        if isfile(self._json()):
-            remove(self._json())
-        if isfile(self._markdown()):
-            remove(self._markdown())
-
-    def add(self):
-        update_changelog_interactive(
-            self._keats.version(), self._json(), self._markdown(), self._keats.package()
-        )
