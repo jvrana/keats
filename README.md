@@ -2,7 +2,7 @@
 
 ![John Keats](assets/keats.jpg)
 
-Keats is an utilities package for poetry.
+Keats is an Python build, installation, and workflow manager.
 
 Features include forced change logs, release scripts, and package version control.
 

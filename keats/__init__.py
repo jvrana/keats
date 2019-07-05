@@ -5,6 +5,10 @@ import fire
 from warnings import warn
 from .version import __version__, __name__
 from .changelog_utils import update_changelog_interactive, save_to_markdown
+from glob import glob
+from termcolor import cprint
+import re
+
 
 PYPROJECT = "pyproject.toml"
 RED = "\u001b[31m"
@@ -13,12 +17,16 @@ VERSIONPY = "__version__.py"
 
 
 def err(msg):
-    return RED + msg + RESET
+    return cprint(msg, "red")
+
+
+def info(msg):
+    return cprint(msg, "blue")
 
 
 class Pkg(object):
     def __init__(self, directory, filename):
-        self.path = join(directory, filename)
+        self.path = join(str(directory), str(filename))
         self.directory = directory
         if not isfile(self.path):
             warn(
@@ -86,6 +94,12 @@ class Pkg(object):
             pkgs = [self._get("name")]
         return pkgs
 
+    def dependencies(self):
+        return self.config["tool"]["poetry"]["dependencies"]
+
+    def dev_dependencies(self):
+        return self.config["tool"]["poetry"]["dev-dependencies"]
+
     def name(self):
         return self._get("name")
 
@@ -100,7 +114,7 @@ class Pkg(object):
 
     def run_cmd(self, *cmd):
         cline = "(cd {}; {})".format(self.directory, " ".join(cmd))
-        print(cline)
+        info(cline)
         return os.system(cline)
 
     def run_poetry_cmd(self, *cmd):
@@ -186,7 +200,7 @@ class Version(Base):
                     lines.append("__{}__ = {}\n".format(k, v))
                 f.writelines(lines)
         else:
-            print("no files written")
+            info("no files written")
 
 
 class ChangeLog(Base):
@@ -211,7 +225,7 @@ class ChangeLog(Base):
 
     def clear(self):
         """Clear the changelog files."""
-        print(self._json)
+        info(self._json)
         if isfile(self._json):
             os.remove(self._json)
         if isfile(self._markdown):
@@ -226,7 +240,7 @@ class ChangeLog(Base):
 
 class Keats(object):
     def __init__(self, directory=os.getcwd(), filename=PYPROJECT):
-        self.pkg = Pkg(directory, filename)
+        self.pkg = Pkg(str(directory), str(filename))
 
     def info(self):
         """
@@ -278,6 +292,32 @@ class Keats(object):
     def bump(self, version=None):
         self.version.bump(version)
         self.changelog.new()
+
+    def where(self, ignore=["python", "black", "pre-commit"]):
+        # ignore = ["python", "black", "pre-commit"]
+        #
+        all_python_files = join(self.pkg.directory, "**", "*.py")
+
+        def contains(g):
+            if g in ignore:
+                return True
+            found = False
+            for f in glob(all_python_files, recursive=True):
+                with open(f, "r") as f:
+                    text = f.read()
+                    if re.match("(import\s+{g})|(from\+{g})".format(g=g), text):
+                        found = True
+                        break
+            return found
+
+        #
+        # for k in ["dependencies", "dev-dependencies"]:
+        #     not_found = []
+        #     for l in config["tool"]["poetry"][k]:
+        #         if not find(l):
+        #             not_found.append(l)
+        #     if not_found:
+        #         print("Could not find {}: {}".format(k, " ".join(not_found)))
 
 
 def main():
