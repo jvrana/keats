@@ -280,9 +280,5 @@ class Keats(object):
         self.changelog.new()
 
 
-here = abspath(dirname(__file__))
-self_keats = Keats(join(here, ".."))
-
-
 def main():
     fire.Fire(Keats)

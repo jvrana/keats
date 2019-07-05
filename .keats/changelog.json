@@ -58,5 +58,12 @@
     "description": "",
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
+  },
+  "0.2.6": {
+    "description": "minor bug fix",
+    "date": "2019-07-04T21:20:54.169900",
+    "changes": [
+      "fixed bug that was causing warning about missing file"
+    ]
   }
 }

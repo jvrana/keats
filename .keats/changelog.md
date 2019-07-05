@@ -1,4 +1,12 @@
 # keats change log
+## 0.2.6
+
+**2019-07-04T21:20:54.169900**
+minor bug fix
+
+ - fixed bug that was causing warning about missing file
+
+
 ## 0.2.5
 
 **2019-07-04T21:18:38.725436**
