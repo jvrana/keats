@@ -1,6 +1,6 @@
 # Keats
 
-![John Keats](../assets/keats.jpg)
+![John Keats](assets/keats.jpg)
 
 Keats is an utilities package for poetry.
 
