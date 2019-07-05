@@ -1,4 +1,12 @@
 # keats change log
+## 0.2.13
+
+**2019-07-05T11:33:10.379093**
+new features
+
+ - added 'install' and 'update' methods to cline
+
+
 ## 0.2.12
 
 **2019-07-05T11:22:14.488037**

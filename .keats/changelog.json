@@ -108,5 +108,12 @@
     "description": "",
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
+  },
+  "0.2.13": {
+    "description": "new features",
+    "date": "2019-07-05T11:33:10.379093",
+    "changes": [
+      "added 'install' and 'update' methods to cline"
+    ]
   }
 }

@@ -155,6 +155,30 @@ class Run(Base):
     def document(self):
         pass
 
+    def clear_cache(self, cachename="pypi"):
+        self._cmd("poetry cache:clear --all {}".format(cachename))
+
+    def install(self):
+        """
+        Install keats to this project.
+
+        :return:
+        """
+        self._cmd("poetry add --dev keats")
+
+    def update(self, cache="pypi"):
+        """
+        Update keats in this project.
+
+        :param clear: if provided, will clear the poetry cache (default: pypi)
+
+        :return:
+        """
+        self._cmd("poetry remove --dev keats")
+        if cache:
+            self.clear_cache(cache)
+        self.install()
+
 
 class Version(Base):
     def print(self):
@@ -319,6 +343,13 @@ class Keats(object):
                         found = True
                         break
             return found
+
+    def install(self):
+        self.run.install()
+        self.version.up()
+
+    def update(self, cache="pypi"):
+        self.run.update(cache=cache)
 
         #
         # for k in ["dependencies", "dev-dependencies"]:
