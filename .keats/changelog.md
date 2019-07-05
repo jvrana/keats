@@ -1,4 +1,12 @@
 # keats change log
+## 0.2.15
+
+**2019-07-05T15:06:43.817247**
+bug fix
+
+ - during update, poetry cache was not clearing
+
+
 ## 0.2.14
 
 **2019-07-05T11:37:54.021629**

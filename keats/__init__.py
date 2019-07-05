@@ -157,7 +157,7 @@ class Run(Base):
 
     def clear_cache(self, cachename="pypi"):
         info("clearing poetry cache")
-        self._cmd("poetry cache:clear --all {} -n -q".format(cachename))
+        self._cmd("poetry cache:clear --all {}".format(cachename))
 
     def install(self):
         """

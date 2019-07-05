@@ -1,4 +1,11 @@
 {
+  "0.2.14": {
+    "description": "change to interface",
+    "date": "2019-07-05T11:37:54.021629",
+    "changes": [
+      "update and install will now be quiet"
+    ]
+  },
   "0.2.13": {
     "description": "new features",
     "date": "2019-07-05T11:33:10.379093",
@@ -116,11 +123,11 @@
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
   },
-  "0.2.14": {
-    "description": "change to interface",
-    "date": "2019-07-05T11:37:54.021629",
+  "0.2.15": {
+    "description": "bug fix",
+    "date": "2019-07-05T15:06:43.817247",
     "changes": [
-      "update and install will now be quiet"
+      "during update, poetry cache was not clearing"
     ]
   }
 }
