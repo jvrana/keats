@@ -55,3 +55,76 @@ read input
 if [ "$input" != "" ]; then
     REPO=$input
 fi
+
+
+#################################
+## Formatting
+#################################
+printf "\n$SEP formatting code $SEP\n"
+
+msg="$PREFIX - formatting for release $VERSION"
+printf "$CINFO $msg $END\n"
+poetry run keats format
+if [ "$COMMIT" == 1 ]; then
+    git add .
+    git commit -m "$msg"
+    echo "$?"
+else
+    printf "$CWARN skipping format commit$END\n"
+fi
+
+
+#################################
+## Documentation
+#################################
+printf "\n$SEP updating documentation $SEP\n"
+msg="$PREFIX - updating docs for release $VERSION "
+printf "$CINFO $msg $END\n"
+printf $msg
+poetry run keats document
+
+if [ "$COMMIT" == 1 ]; then
+    git add .
+    git commit -m "$msg"
+else
+    printf "$CWARN skipping document commit $END\n"
+fi
+
+
+#################################
+## Tagging
+#################################
+printf "\n$SEP Tagging branch $SEP\n"
+if [ "$COMMIT" == 1 ]; then
+    git tag $TAG
+else
+    printf "$CWARN skipping tagging $END\n"
+fi
+
+if [ "$PUSH" == 1 ]; then
+    git push
+    git push $TAG
+fi
+
+
+#################################
+## Releasing
+#################################
+printf "\n$SEP Publishing $SEP\n"
+
+
+if [ "$REPO" != "" ]; then
+    printf "$CWARN Are you sure you want to publish $NAME $VERSION to $REPO ([y]/n)?: $END"
+    read input
+    if [ "$input" == "n" ]; then
+        REPO=""
+    fi
+
+    if [ "$REPO" == "pypi" ]; then
+        poetry publish --build
+    elif [ "$REPO" != "" ]; then
+        poetry publish --build -r $REPO
+    fi
+else
+    printf "$CWARN skipping publishing, repo not specified $END\n"
+fi

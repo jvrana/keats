@@ -29,7 +29,7 @@ def test_version_json(fake_keats):
     fake_keats.up()
     assert isfile(version_path)
 
-    pkg_info = fake_keats.pkg_info()
+    pkg_info = fake_keats.info()
 
     with open(version_path, "r") as f:
         text = f.read()

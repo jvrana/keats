@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "keats"
-version = "0.1.3"
+version = "0.0.4"
 description = ""
 authors = ["jvrana <justin.vrana@gmail.com>"]
 packages = [
@@ -11,11 +11,12 @@ packages = [
 python = "^3.7"
 toml = "^0.10.0"
 fire = "^0.1.3"
-pytest = "^5.0"
+termcolor = "^1.1"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^1.17"
 black = {version = "^18.3-alpha.0", allows-prereleases = true}
+pytest = "^5.0"
 
 [tool.poetry.scripts]
 keats = 'keats:main'

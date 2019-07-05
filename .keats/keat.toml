@@ -1,0 +1,6 @@
+[tool.keats.format]
+command = "echo 'no formatting specified'"
+
+[tool.keats.docs]
+command = "echo 'no documentation'"
+
