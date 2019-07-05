@@ -1,4 +1,13 @@
 # keats change log
+## 0.2.7
+
+**2019-07-05T09:18:24.979212**
+Adds support for lesser Python3 versions
+
+ - support for py35, py35, py37
+ - added tox tests
+
+
 ## 0.2.6
 
 **2019-07-04T21:20:54.169900**

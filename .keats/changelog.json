@@ -1,4 +1,11 @@
 {
+  "0.2.6": {
+    "description": "minor bug fix",
+    "date": "2019-07-04T21:20:54.169900",
+    "changes": [
+      "fixed bug that was causing warning about missing file"
+    ]
+  },
   "0.2.5": {
     "description": "",
     "date": "2019-07-04T21:18:38.725436",
@@ -59,11 +66,12 @@
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
   },
-  "0.2.6": {
-    "description": "minor bug fix",
-    "date": "2019-07-04T21:20:54.169900",
+  "0.2.7": {
+    "description": "Adds support for lesser Python3 versions",
+    "date": "2019-07-05T09:18:24.979212",
     "changes": [
-      "fixed bug that was causing warning about missing file"
+      "support for py35, py35, py37",
+      "added tox tests"
     ]
   }
 }
