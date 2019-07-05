@@ -60,7 +60,8 @@ def update(version, description, changes, changelogpath):
 
     if version in changelog:
         entry = changelog[version]
-        entry["description"] = description
+        if description.strip() != "":
+            entry["description"] = description
 
         now = datetime.datetime.now()
         entry["date"] = now.isoformat()
@@ -82,12 +83,12 @@ def save_to_markdown(changelogpath, path, title=""):
 
 
 def update_changelog_interactive(version, changelogpath, markdownpath, title=""):
-    description = input("Add a description: ")
+    description = input("Add a description (ENTER to skip): ")
     change_input = None
     changes = []
     while change_input != "":
         if change_input is not None:
             changes.append(change_input)
-        change_input = input("List a change (ENTER to finish): ").strip()
+        change_input = input("Add a change (ENTER to finish): ").strip()
     update(version, description, changes, changelogpath)
     save_to_markdown(changelogpath, markdownpath, title=title)

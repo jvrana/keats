@@ -1,4 +1,20 @@
 {
+  "0.2.9": {
+    "description": "",
+    "date": "2019-07-05T11:16:36.512630",
+    "changes": [
+      "updates to cli documentation",
+      "update to interactive scripts"
+    ]
+  },
+  "0.2.8": {
+    "description": "minor api change",
+    "date": "2019-07-05T10:00:22.396703",
+    "changes": [
+      "release can be accessed from 'keats release' instead of 'keats run release'",
+      "updated README.md"
+    ]
+  },
   "0.2.7": {
     "description": "Adds support for lesser Python3 versions",
     "date": "2019-07-05T09:18:24.979212",
@@ -73,13 +89,5 @@
     "description": "",
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
-  },
-  "0.2.8": {
-    "description": "minor api change",
-    "date": "2019-07-05T10:00:22.396703",
-    "changes": [
-      "release can be accessed from 'keats release' instead of 'keats run release'",
-      "updated README.md"
-    ]
   }
 }

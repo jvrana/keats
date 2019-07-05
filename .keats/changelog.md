@@ -1,4 +1,13 @@
 # keats change log
+## 0.2.9
+
+**2019-07-05T11:16:36.512630**
+
+
+ - updates to cli documentation
+ - update to interactive scripts
+
+
 ## 0.2.8
 
 **2019-07-05T10:00:22.396703**

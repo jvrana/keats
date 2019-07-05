@@ -114,7 +114,9 @@ class Pkg(object):
 
     def run_cmd(self, *cmd):
         cline = "(cd {}; {})".format(self.directory, " ".join(cmd))
-        info(cline)
+        cprint("spawning shell ({})".format(self.directory), "blue")
+        cprint(" ".join(cmd), "yellow")
+        cprint("exiting shell", "blue")
         return os.system(cline)
 
     def run_poetry_cmd(self, *cmd):
@@ -239,6 +241,11 @@ class ChangeLog(Base):
 
 
 class Keats(object):
+    """Python version and worfklow release manager
+
+    Usage `keats [command] [arguments]`
+    """
+
     def __init__(self, directory=os.getcwd(), filename=PYPROJECT):
         self.pkg = Pkg(str(directory), str(filename))
 
@@ -324,4 +331,5 @@ class Keats(object):
 
 
 def main():
+    cprint(__name__ + " " + __version__, "green")
     fire.Fire(Keats)
