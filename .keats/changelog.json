@@ -1,4 +1,9 @@
 {
+  "0.2.3": {
+    "description": "updated readme",
+    "date": "2019-07-04T21:08:29.136853",
+    "changes": []
+  },
   "0.2.2": {
     "description": "minor change",
     "date": "2019-07-04T21:05:35.607437",
@@ -44,9 +49,9 @@
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
   },
-  "0.2.3": {
-    "description": "updated readme",
-    "date": "2019-07-04T21:08:29.136853",
+  "0.2.4": {
+    "description": "updated package info",
+    "date": "2019-07-04T21:10:34.993149",
     "changes": []
   }
 }

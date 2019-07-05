@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "keats"
-version = "0.2.3"
+version = "0.2.4"
 description = "Utilities for managing version, changelogs, and project releases."
 authors = ["jvrana <justin.vrana@gmail.com>"]
 packages = [
@@ -12,6 +12,9 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
 readme = "README.md"
+repo = "https://github.com/jvrana/keats"
+homepage = "https://github.com/jvrana/keats"
+documentation = "https://github.com/jvrana/keats"
 
 [tool.poetry.dependencies]
 python = "^3.7"
