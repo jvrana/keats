@@ -94,7 +94,6 @@ def update_changelog_interactive(version, changelogpath, markdownpath, title="")
 
 
 class ChangeLog(object):
-
     def __init__(self, keats):
         self._keats = keats
         log_dir = join(keats._directory, ".keats")
@@ -118,7 +117,6 @@ class ChangeLog(object):
             remove(self._markdown())
 
     def add(self):
-        update_changelog_interactive(self._keats.version(),
-                                     self._json(),
-                                     self._markdown(),
-                                     self._keats.package())
+        update_changelog_interactive(
+            self._keats.version(), self._json(), self._markdown(), self._keats.package()
+        )
