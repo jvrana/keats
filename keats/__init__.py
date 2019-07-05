@@ -23,8 +23,8 @@ class Pkg(object):
         if not isfile(self.path):
             warn(
                 err(
-                    "Cannot run keats. No {} file found in currenct directory.".format(
-                        PYPROJECT
+                    "Cannot run keats. No {} file found in current directory {}.".format(
+                        PYPROJECT, directory
                     )
                 )
             )

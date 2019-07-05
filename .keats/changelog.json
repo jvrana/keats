@@ -1,4 +1,14 @@
 {
+  "0.2.5": {
+    "description": "",
+    "date": "2019-07-04T21:18:38.725436",
+    "changes": []
+  },
+  "0.2.4": {
+    "description": "updated package info",
+    "date": "2019-07-04T21:10:34.993149",
+    "changes": []
+  },
   "0.2.3": {
     "description": "updated readme",
     "date": "2019-07-04T21:08:29.136853",
@@ -47,11 +57,6 @@
   "0.0.3": {
     "description": "",
     "date": "2019-07-04T19:32:36.374869",
-    "changes": []
-  },
-  "0.2.4": {
-    "description": "updated package info",
-    "date": "2019-07-04T21:10:34.993149",
     "changes": []
   }
 }
