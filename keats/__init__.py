@@ -4,12 +4,12 @@ from os.path import join, abspath, dirname, isfile, isdir
 import fire
 from warnings import warn
 from .version import __version__, __name__
-from .changelog import update_changelog_interactive, save_to_markdown
+from .changelog_utils import update_changelog_interactive, save_to_markdown
 
 PYPROJECT = "pyproject.toml"
 RED = "\u001b[31m"
 RESET = "\u001b[0m"
-VERSIONPY = "version.py"
+VERSIONPY = "__version__.py"
 
 
 def err(msg):
@@ -138,7 +138,8 @@ class Run(Base):
 
 
 class Version(Base):
-    def v(self):
+    def print(self):
+        """Return package version"""
         return self._get("version")
 
     def bump(self, version=None):
@@ -233,13 +234,18 @@ class Keats(object):
         """
         return self.pkg.config_info()
 
-    def v(self):
+    def keats(self):
         """
         Return the keats version number.
         :return:
         :rtype:
         """
         return __name__ + " " + __version__
+
+    @property
+    def v(self):
+        """Return package version"""
+        return self.version.print()
 
     @property
     def package(self):
@@ -262,8 +268,8 @@ class Keats(object):
         return Run(self.pkg)
 
     def bump(self, version=None):
-        self.version().bump(version)
-        self.changelog().new()
+        self.version.bump(version)
+        self.changelog.new()
 
 
 def main():

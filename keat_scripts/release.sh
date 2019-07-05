@@ -2,7 +2,7 @@
 
 EMOJI="\xE2\x9C\xA8 \xF0\x9F\x8C\xB2 \xE2\x9C\xA8"
 SEP="*****"
-CURRENT=$(poetry run keats version v)
+CURRENT=$(poetry run keats v)
 NAME=$(poetry run keats package)
 COLOR="\e[1;31m"
 CINPUT="\e[32m"

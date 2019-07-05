@@ -1,4 +1,11 @@
 {
+  "0.1.0": {
+    "description": "refactored and api changes",
+    "date": "2019-07-04T19:39:56.624179",
+    "changes": [
+      "interface is split into 'run', 'version', and 'changelog'"
+    ]
+  },
   "0.0.2": {
     "description": "",
     "date": "2019-07-04T19:39:13.400230",
@@ -9,11 +16,11 @@
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
   },
-  "0.1.0": {
-    "description": "refactored and api changes",
-    "date": "2019-07-04T19:39:56.624179",
+  "0.1.1": {
+    "description": "major bug fixes",
+    "date": "2019-07-04T19:53:24.318926",
     "changes": [
-      "interface is split into 'run', 'version', and 'changelog'"
+      "'v' now returns version number"
     ]
   }
 }
