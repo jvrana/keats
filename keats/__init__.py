@@ -293,6 +293,9 @@ class Keats(object):
         self.version.bump(version)
         self.changelog.new()
 
+    def release(self):
+        return self.run.release()
+
     def where(self, ignore=["python", "black", "pre-commit"]):
         # ignore = ["python", "black", "pre-commit"]
         #

@@ -1,4 +1,12 @@
 {
+  "0.2.7": {
+    "description": "Adds support for lesser Python3 versions",
+    "date": "2019-07-05T09:18:24.979212",
+    "changes": [
+      "support for py35, py35, py37",
+      "added tox tests"
+    ]
+  },
   "0.2.6": {
     "description": "minor bug fix",
     "date": "2019-07-04T21:20:54.169900",
@@ -66,12 +74,12 @@
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
   },
-  "0.2.7": {
-    "description": "Adds support for lesser Python3 versions",
-    "date": "2019-07-05T09:18:24.979212",
+  "0.2.8": {
+    "description": "minor api change",
+    "date": "2019-07-05T10:00:22.396703",
     "changes": [
-      "support for py35, py35, py37",
-      "added tox tests"
+      "release can be accessed from 'keats release' instead of 'keats run release'",
+      "updated README.md"
     ]
   }
 }

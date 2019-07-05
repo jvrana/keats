@@ -1,4 +1,13 @@
 # keats change log
+## 0.2.8
+
+**2019-07-05T10:00:22.396703**
+minor api change
+
+ - release can be accessed from 'keats release' instead of 'keats run release'
+ - updated README.md
+
+
 ## 0.2.7
 
 **2019-07-05T09:18:24.979212**

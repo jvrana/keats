@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "keats"
-version = "0.2.7"
+version = "0.2.8"
 description = "Utilities for managing version, changelogs, and project releases."
-authors = ["jvrana <justin.vrana@gmail.com>"]
+authors = ["Justin Vrana <justin.vrana@gmail.com>"]
 packages = [
     { include = "keats" },
     { include = "keat_scripts" }
