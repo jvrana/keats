@@ -1,4 +1,9 @@
 {
+  "0.2.1": {
+    "description": "fixed bug",
+    "date": "2019-07-04T20:13:05.147834",
+    "changes": []
+  },
   "0.2.0": {
     "description": "api changes",
     "date": "2019-07-04T20:10:42.970256",
@@ -32,9 +37,11 @@
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
   },
-  "0.2.1": {
-    "description": "fixed bug",
-    "date": "2019-07-04T20:13:05.147834",
-    "changes": []
+  "0.2.2": {
+    "description": "minor change",
+    "date": "2019-07-04T21:05:35.607437",
+    "changes": [
+      "added pypi classifiers"
+    ]
   }
 }
