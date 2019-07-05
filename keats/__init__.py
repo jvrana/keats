@@ -16,7 +16,7 @@ def err(msg):
     return RED + msg + RESET
 
 
-class Path(object):
+class Pkg(object):
     def __init__(self, directory, filename):
         self.path = join(directory, filename)
         self.directory = directory
@@ -28,6 +28,9 @@ class Path(object):
                     )
                 )
             )
+
+    def _get(self, key):
+        return self.config["tool"]["poetry"].get(key, None)
 
     @property
     def config(self):
@@ -136,7 +139,7 @@ class Run(Base):
 
 class Version(Base):
     def v(self):
-        return self._get("name") + " " + self._get("version")
+        return self._get("version")
 
     def bump(self, version=None):
         if version is None:
@@ -198,7 +201,7 @@ class ChangeLog(Base):
     def _markdown(self):
         return join(self._dir, "changelog.md")
 
-    def md(self):
+    def up(self):
         """Save changelog to a markdown file."""
         save_to_markdown(self._json, self._markdown)
 
@@ -219,7 +222,7 @@ class ChangeLog(Base):
 
 class Keats(object):
     def __init__(self, directory=os.getcwd(), filename=PYPROJECT):
-        self.path = Path(directory, filename)
+        self.pkg = Pkg(directory, filename)
 
     def info(self):
         """
@@ -228,7 +231,7 @@ class Keats(object):
         :return:
         :rtype:
         """
-        return self.path.config_info()
+        return self.pkg.config_info()
 
     def v(self):
         """
@@ -238,20 +241,25 @@ class Keats(object):
         """
         return __name__ + " " + __version__
 
+    @property
     def package(self):
-        return self.path.package()
+        return self.pkg.package()
 
+    @property
     def packages(self):
-        return self.path.packages()
+        return self.pkg.packages()
 
+    @property
     def version(self):
-        return Version(self.path)
+        return Version(self.pkg)
 
+    @property
     def changelog(self):
-        return ChangeLog(self.path)
+        return ChangeLog(self.pkg)
 
+    @property
     def run(self):
-        return Run(self.path)
+        return Run(self.pkg)
 
     def bump(self, version=None):
         self.version().bump(version)
