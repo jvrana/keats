@@ -328,23 +328,6 @@ class Keats(object):
     def release(self):
         return self.run.release()
 
-    def where(self, ignore=["python", "black", "pre-commit"]):
-        # ignore = ["python", "black", "pre-commit"]
-        #
-        all_python_files = join(self.pkg.directory, "**", "*.py")
-
-        def contains(g):
-            if g in ignore:
-                return True
-            found = False
-            for f in glob(all_python_files, recursive=True):
-                with open(f, "r") as f:
-                    text = f.read()
-                    if re.match("(import\s+{g})|(from\+{g})".format(g=g), text):
-                        found = True
-                        break
-            return found
-
     def install(self):
         """
         Install keats to this project.
