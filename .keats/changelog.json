@@ -1,4 +1,20 @@
 {
+  "0.2.0": {
+    "description": "api changes",
+    "date": "2019-07-04T20:10:42.970256",
+    "changes": [
+      "'package' and 'name' are now different",
+      "tests for 'package' and 'name'",
+      "fixed bug in which the keats version referred to the old version instead of the one located in the toml file"
+    ]
+  },
+  "0.1.1": {
+    "description": "major bug fixes",
+    "date": "2019-07-04T19:53:24.318926",
+    "changes": [
+      "'v' now returns version number"
+    ]
+  },
   "0.1.0": {
     "description": "refactored and api changes",
     "date": "2019-07-04T19:39:56.624179",
@@ -16,11 +32,9 @@
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
   },
-  "0.1.1": {
-    "description": "major bug fixes",
-    "date": "2019-07-04T19:53:24.318926",
-    "changes": [
-      "'v' now returns version number"
-    ]
+  "0.2.1": {
+    "description": "fixed bug",
+    "date": "2019-07-04T20:13:05.147834",
+    "changes": []
   }
 }

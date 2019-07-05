@@ -1,4 +1,22 @@
 # keats change log
+## 0.2.1
+
+**2019-07-04T20:13:05.147834**
+fixed bug
+
+
+
+
+## 0.2.0
+
+**2019-07-04T20:10:42.970256**
+api changes
+
+ - 'package' and 'name' are now different
+ - tests for 'package' and 'name'
+ - fixed bug in which the keats version referred to the old version instead of the one located in the toml file
+
+
 ## 0.1.1
 
 **2019-07-04T19:53:24.318926**
