@@ -331,5 +331,4 @@ class Keats(object):
 
 
 def main():
-    cprint(__name__ + " " + __version__, "green")
     fire.Fire(Keats)

@@ -27,7 +27,7 @@ if [ "$input" != "" ]; then
 fi
 
 poetry run keats bump $VERSION
-
+VERSION=$(poetry run keats version)
 ################################
 # Setup
 ################################
@@ -50,7 +50,7 @@ fi
 
 printf "$CINPUT Would you like to publish this package to a repo?$END\n"
 printf "$CINPUT New repos can be configures using $CINFO 'poetry config repositories.<reponame> <url>' $END\n"
-printf "$CINPUT Repository name (default: pypi): $END"
+printf "$CINPUT Repository name (example: pypi; ENTER to skip): $END"
 read input
 if [ "$input" != "" ]; then
     REPO=$input
