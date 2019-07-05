@@ -27,7 +27,7 @@ if [ "$input" != "" ]; then
 fi
 
 poetry run keats bump $VERSION
-VERSION=$(poetry run keats version)
+VERSION=$(poetry run keats v)
 ################################
 # Setup
 ################################

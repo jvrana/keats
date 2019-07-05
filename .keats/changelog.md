@@ -1,10 +1,10 @@
 # keats change log
 ## 0.2.11
 
-**2019-07-05T11:18:56.231074**
+**2019-07-05T11:19:45.284233**
+bug fixes
 
-
-
+ - fixed release script
 
 
 ## 0.2.10

@@ -1,4 +1,11 @@
 {
+  "0.2.11": {
+    "description": "bug fixes",
+    "date": "2019-07-05T11:19:45.284233",
+    "changes": [
+      "fixed release script"
+    ]
+  },
   "0.2.10": {
     "description": "",
     "date": "2019-07-05T11:18:17.928748",
@@ -93,11 +100,6 @@
   "0.0.3": {
     "description": "",
     "date": "2019-07-04T19:32:36.374869",
-    "changes": []
-  },
-  "0.2.11": {
-    "description": "",
-    "date": "2019-07-05T11:18:56.231074",
     "changes": []
   }
 }
