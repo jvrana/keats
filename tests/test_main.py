@@ -14,6 +14,11 @@ def test_package(fake_keats):
     assert fake_keats.package == "testpackage"
 
 
+def test_name(fake_keats):
+    """We expect the package name to be correctly returned"""
+    assert fake_keats.name == "mypkg"
+
+
 def test_format(fake_keats):
     """We expect a successfully implemented format"""
     fake_keats.run.format()

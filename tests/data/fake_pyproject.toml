@@ -1,8 +1,11 @@
 [tool.poetry]
-name = "testpackage"
+name = "mypkg"
 version = "9.9.9"
 description = ""
 authors = ["jvrana <justin.vrana@gmail.com>"]
+packages = [
+    { include = "testpackage" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.7"
