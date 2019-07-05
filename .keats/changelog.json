@@ -1,4 +1,11 @@
 {
+  "0.2.13": {
+    "description": "new features",
+    "date": "2019-07-05T11:33:10.379093",
+    "changes": [
+      "added 'install' and 'update' methods to cline"
+    ]
+  },
   "0.2.12": {
     "description": "update to release script",
     "date": "2019-07-05T11:22:14.488037",
@@ -109,11 +116,11 @@
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
   },
-  "0.2.13": {
-    "description": "new features",
-    "date": "2019-07-05T11:33:10.379093",
+  "0.2.14": {
+    "description": "change to interface",
+    "date": "2019-07-05T11:37:54.021629",
     "changes": [
-      "added 'install' and 'update' methods to cline"
+      "update and install will now be quiet"
     ]
   }
 }

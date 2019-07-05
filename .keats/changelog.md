@@ -1,4 +1,12 @@
 # keats change log
+## 0.2.14
+
+**2019-07-05T11:37:54.021629**
+change to interface
+
+ - update and install will now be quiet
+
+
 ## 0.2.13
 
 **2019-07-05T11:33:10.379093**

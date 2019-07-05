@@ -156,7 +156,8 @@ class Run(Base):
         pass
 
     def clear_cache(self, cachename="pypi"):
-        self._cmd("poetry cache:clear --all {}".format(cachename))
+        info("clearing poetry cache")
+        self._cmd("poetry cache:clear --all {} -n -q".format(cachename))
 
     def install(self):
         """
@@ -345,10 +346,22 @@ class Keats(object):
             return found
 
     def install(self):
+        """
+        Install keats to this project.
+
+        :return:
+        """
         self.run.install()
         self.version.up()
 
     def update(self, cache="pypi"):
+        """
+        Update keats in this project.
+
+        :param clear: if provided, will clear the poetry cache (default: pypi)
+
+        :return:
+        """
         self.run.update(cache=cache)
 
         #

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "keats"
-version = "0.2.13"
+version = "0.2.14"
 description = "Utilities for managing version, changelogs, and project releases."
 authors = ["Justin Vrana <justin.vrana@gmail.com>"]
 packages = [
