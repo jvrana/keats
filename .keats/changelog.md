@@ -1,7 +1,7 @@
 # keats change log
 ## 0.2.12
 
-**2019-07-05T11:21:41.376125**
+**2019-07-05T11:22:14.488037**
 update to release script
 
  - more information displayed for publishing repository

@@ -1,4 +1,11 @@
 {
+  "0.2.12": {
+    "description": "update to release script",
+    "date": "2019-07-05T11:22:14.488037",
+    "changes": [
+      "more information displayed for publishing repository"
+    ]
+  },
   "0.2.11": {
     "description": "bug fixes",
     "date": "2019-07-05T11:19:45.284233",
@@ -101,12 +108,5 @@
     "description": "",
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
-  },
-  "0.2.12": {
-    "description": "update to release script",
-    "date": "2019-07-05T11:21:41.376125",
-    "changes": [
-      "more information displayed for publishing repository"
-    ]
   }
 }

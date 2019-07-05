@@ -114,8 +114,7 @@ printf "\n$SEP Publishing $SEP\n"
 
 
 if [ "$REPO" != "" ]; then
-    repoinfo=$(poetry config repositories.$REPO)
-    printf $repoinfo
+    poetry config repositories.$REPO
     printf "$CWARN Are you sure you want to publish $NAME $VERSION to $REPO ([y]/n)?: $END"
     read input
     if [ "$input" == "n" ]; then
