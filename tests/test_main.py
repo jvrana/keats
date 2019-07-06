@@ -52,6 +52,11 @@ class TestChangeLog(object):
         fake_keats.version.bump()
         fake_keats.changelog.new("new description", ["new changes"])
 
+    def test_mark_as_released(self, fake_keats):
+        fake_keats.version.bump()
+        fake_keats.changelog.new("new description", ["new changes"])
+        fake_keats.changelog.mark_as_released()
+
 
 def test_bump(fake_keats):
     """We expect the version to be bump by one increment"""
