@@ -229,11 +229,19 @@ class Version(Base):
 
 
 class ChangeLog(Base):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, path, *args, **kwargs):
+        super().__init__(path)
         path = join(self._dir, "changelog.json")
         mdpath = join(self._dir, "changelog.md")
         title = self._path.name
         self.writer = ChangeLogWriter(path=path, title=title, mdpath=mdpath)
+
+    @property
+    def _dir(self):
+        dirpath = join(self._path.pkg_path(), "..", ".keats")
+        if not isdir(dirpath):
+            os.mkdir(dirpath)
+        return dirpath
 
     def up(self):
         """Save changelog to a markdown file."""
@@ -249,10 +257,10 @@ class ChangeLog(Base):
     def mark_as_released(self):
         self.writer.mark_as_released(self._get("version"))
 
-    def new(self, description, changes):
+    def new(self, description=None, changes=None):
         """Interactively add a changelog entry. Entries are located in the '.keats' folder."""
         self.writer.update_interactive(
-            self._get("version", description=description, changes=changes)
+            self._get("version"), description=description, changes=changes
         )
 
 
@@ -312,9 +320,9 @@ class Keats(object):
     def run(self):
         return Run(self.pkg)
 
-    def bump(self, version=None):
+    def bump(self, version=None, description=None, changes=None):
         self.version.bump(version)
-        self.changelog.new()
+        self.changelog.new(description=description, change=changes)
 
     def release(self):
         return self.run.release()
