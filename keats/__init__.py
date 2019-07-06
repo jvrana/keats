@@ -4,10 +4,8 @@ from os.path import join, abspath, dirname, isfile, isdir
 import fire
 from warnings import warn
 from .version import __version__, __name__
-from .changelog_utils import update_changelog_interactive, save_to_markdown
-from glob import glob
+from .changelog_utils import ChangeLogWriter
 from termcolor import cprint
-import re
 
 
 PYPROJECT = "pyproject.toml"
@@ -231,37 +229,30 @@ class Version(Base):
 
 
 class ChangeLog(Base):
-    @property
-    def _dir(self):
-        d = join(self._path.directory, ".keats")
-        if not isdir(d):
-            os.mkdir(d)
-        return d
-
-    @property
-    def _json(self):
-        return join(self._dir, "changelog.json")
-
-    @property
-    def _markdown(self):
-        return join(self._dir, "changelog.md")
+    def __init__(self, *args, **kwargs):
+        path = join(self._dir, "changelog.json")
+        mdpath = join(self._dir, "changelog.md")
+        title = self._path.name
+        self.writer = ChangeLogWriter(path=path, title=title, mdpath=mdpath)
 
     def up(self):
         """Save changelog to a markdown file."""
-        save_to_markdown(self._json, self._markdown)
+        self.writer.save_to_markdown()
 
     def clear(self):
         """Clear the changelog files."""
-        info(self._json)
-        if isfile(self._json):
-            os.remove(self._json)
-        if isfile(self._markdown):
-            os.remove(self._markdown)
+        if isfile(self.writer.path):
+            os.remove(self.writer.path)
+        if isfile(self.writer.mdpath):
+            os.remove(self.writer.mdpath)
 
-    def new(self):
+    def mark_as_released(self):
+        self.writer.mark_as_released(self._get("version"))
+
+    def new(self, description, changes):
         """Interactively add a changelog entry. Entries are located in the '.keats' folder."""
-        update_changelog_interactive(
-            self._get("version"), self._json, self._markdown, self._path.package()
+        self.writer.update_interactive(
+            self._get("version", description=description, changes=changes)
         )
 
 
