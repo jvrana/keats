@@ -1,6 +1,42 @@
 # keats change log
-## 0.2.15
+## 0.2.21
+**2019-07-07T14:44:16.586064**
+bug fixes
 
+ - fixed bug that was causing error when initializing a new changelog
+
+
+## 0.2.20
+**2019-07-07T14:39:19.932877**
+bug fixes
+
+ - fixed bug in which autogeneration tag displayed the wrong number
+ - remove version.py, an legacy file
+
+
+## 0.2.19
+**2019-07-07T13:41:14.833050**
+minor api changes
+
+ - develop will now remove 'dist' and 'pip-wheel-metadata' folders
+
+
+## 0.2.18
+**2019-07-07T13:29:00.145886**
+new features
+
+ - new global_install and develop commands
+ - exits gracefully from the cli if cwd is does not have a pyproject.toml file
+
+
+## 0.2.17
+**2019-07-07T13:28:00.960624**
+new features
+
+ - new develop and global_install commands
+
+
+## 0.2.15
 **2019-07-05T15:06:43.817247**
 bug fix
 
@@ -8,7 +44,6 @@ bug fix
 
 
 ## 0.2.14
-
 **2019-07-05T11:37:54.021629**
 change to interface
 
@@ -16,7 +51,6 @@ change to interface
 
 
 ## 0.2.13
-
 **2019-07-05T11:33:10.379093**
 new features
 
@@ -24,7 +58,6 @@ new features
 
 
 ## 0.2.12
-
 **2019-07-05T11:22:14.488037**
 update to release script
 
@@ -32,7 +65,6 @@ update to release script
 
 
 ## 0.2.11
-
 **2019-07-05T11:19:45.284233**
 bug fixes
 
@@ -40,7 +72,6 @@ bug fixes
 
 
 ## 0.2.10
-
 **2019-07-05T11:18:17.928748**
 
 
@@ -48,7 +79,6 @@ bug fixes
 
 
 ## 0.2.9
-
 **2019-07-05T11:16:36.512630**
 
 
@@ -57,7 +87,6 @@ bug fixes
 
 
 ## 0.2.8
-
 **2019-07-05T10:00:22.396703**
 minor api change
 
@@ -66,7 +95,6 @@ minor api change
 
 
 ## 0.2.7
-
 **2019-07-05T09:18:24.979212**
 Adds support for lesser Python3 versions
 
@@ -75,7 +103,6 @@ Adds support for lesser Python3 versions
 
 
 ## 0.2.6
-
 **2019-07-04T21:20:54.169900**
 minor bug fix
 
@@ -83,7 +110,6 @@ minor bug fix
 
 
 ## 0.2.5
-
 **2019-07-04T21:18:38.725436**
 
 
@@ -91,7 +117,6 @@ minor bug fix
 
 
 ## 0.2.4
-
 **2019-07-04T21:10:34.993149**
 updated package info
 
@@ -99,7 +124,6 @@ updated package info
 
 
 ## 0.2.3
-
 **2019-07-04T21:08:29.136853**
 updated readme
 
@@ -107,7 +131,6 @@ updated readme
 
 
 ## 0.2.2
-
 **2019-07-04T21:05:35.607437**
 minor change
 
@@ -115,7 +138,6 @@ minor change
 
 
 ## 0.2.1
-
 **2019-07-04T20:13:05.147834**
 fixed bug
 
@@ -123,7 +145,6 @@ fixed bug
 
 
 ## 0.2.0
-
 **2019-07-04T20:10:42.970256**
 api changes
 
@@ -133,7 +154,6 @@ api changes
 
 
 ## 0.1.1
-
 **2019-07-04T19:53:24.318926**
 major bug fixes
 
@@ -141,7 +161,6 @@ major bug fixes
 
 
 ## 0.1.0
-
 **2019-07-04T19:39:56.624179**
 refactored and api changes
 
@@ -149,7 +168,6 @@ refactored and api changes
 
 
 ## 0.0.2
-
 **2019-07-04T19:39:13.400230**
 
 
@@ -157,5 +175,7 @@ refactored and api changes
 
 
 ## 0.0.3
-
 **2019-07-04T19:32:36.374869**
+
+
+

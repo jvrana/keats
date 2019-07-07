@@ -1,4 +1,20 @@
 {
+  "0.2.22": {
+    "description": "fixed changelog bugs",
+    "date": "2019-07-07T14:58:21.944564",
+    "changes": [
+      "fixed error in which uninitialized project would through error due to changelog being missing",
+      "changelog json is now sorted by date",
+      "fixed bug in which changelog.json would go missing if exception was thrown"
+    ]
+  },
+  "0.2.21": {
+    "description": "bug fixes",
+    "date": "2019-07-07T14:44:16.586064",
+    "changes": [
+      "fixed bug that was causing error when initializing a new changelog"
+    ]
+  },
   "0.2.20": {
     "description": "bug fixes",
     "date": "2019-07-07T14:39:19.932877",
@@ -159,12 +175,5 @@
     "description": "",
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
-  },
-  "0.2.21": {
-    "description": "bug fixes",
-    "date": "2019-07-07T14:44:16.586064",
-    "changes": [
-      "fixed bug that was causing error when initializing a new changelog"
-    ]
   }
 }
