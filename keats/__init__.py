@@ -1,10 +1,11 @@
 import os
 from os.path import join, abspath, dirname, isfile, isdir
-from warnings import warn
 from .version import __version__, __name__
 from .changelog_utils import ChangeLogWriter
 from termcolor import cprint
-
+from functools import wraps
+import toml
+import fire
 
 PYPROJECT = "pyproject.toml"
 RED = "\u001b[31m"
@@ -122,7 +123,7 @@ def requires_config(f):
 
     @wraps(f)
     def wrapped(self, *args, **kwargs):
-        if not self.pkg.valid():
+        if not self._pkg.valid():
             print(err("No pyproject.toml file found"))
             exit(0)
         else:
@@ -133,14 +134,14 @@ def requires_config(f):
 
 class Base(object):
     def __init__(self, path):
-        self.pkg = path
+        self._pkg = path
 
     def _cmd(self, *cmd):
-        return self.pkg.run_cmd(*cmd)
+        return self._pkg.run_cmd(*cmd)
 
     @requires_config
     def _get(self, key):
-        return self.pkg.get_config()["tool"]["poetry"].get(key, None)
+        return self._pkg.get_config()["tool"]["poetry"].get(key, None)
 
 
 class Run(Base):
@@ -152,7 +153,7 @@ class Run(Base):
         :return:
         :rtype:
         """
-        paths = [self.pkg.local_path(p) for p in self.pkg.packages() + ["tests"]]
+        paths = [self._pkg.local_path(p) for p in self._pkg.packages() + ["tests"]]
         self._cmd(" ".join(["black"] + paths))
 
     @requires_config
@@ -226,8 +227,8 @@ class Version(Base):
 
     @requires_config
     def _write(self, with_confirm=False):
-        pkg_info = self.pkg.config_info()
-        path = self.pkg.version_py()
+        pkg_info = self._pkg.config_info()
+        path = self._pkg.version_py()
         if with_confirm:
             ans = input("Write to '{}'?".format(path))
         else:
@@ -248,19 +249,18 @@ class Version(Base):
 
 
 class ChangeLog(Base):
+    def __init__(self, path):
+        super().__init__(path)
+        path = join(self._dir(), "changelog.json")
+        mdpath = join(self._dir(), "changelog.md")
+        title = self._pkg.name
+        self.writer = ChangeLogWriter(path=path, title=title, mdpath=mdpath)
+
     def _dir(self):
-        d = join(self.pkg.directory, ".keats")
+        d = join(self._pkg.directory, ".keats")
         if not isdir(d):
             os.mkdir(d)
         return d
-
-    @property
-    def _json(self):
-        return join(self._dir(), "changelog.json")
-
-    @property
-    def _markdown(self):
-        return join(self._dir(), "changelog.md")
 
     @requires_config
     def up(self):
@@ -315,7 +315,10 @@ class Keats(object):
     """
 
     def __init__(self, directory=os.getcwd(), filename=PYPROJECT):
-        self.pkg = Pkg(str(directory), str(filename))
+        self._pkg = Pkg(str(directory), str(filename))
+
+    def pkg(self):
+        return self._pkg
 
     @requires_config
     def info(self):
@@ -325,7 +328,7 @@ class Keats(object):
         :return:
         :rtype:
         """
-        return self.pkg.config_info()
+        return self._pkg.config_info()
 
     def keats(self):
         """
@@ -343,31 +346,31 @@ class Keats(object):
 
     @requires_config
     def name(self):
-        return self.pkg.name()
+        return self._pkg.name()
 
     @requires_config
     def package(self):
-        return self.pkg.package()
+        return self._pkg.package()
 
     @requires_config
     def packages(self):
-        return self.pkg.packages()
+        return self._pkg.packages()
 
     @property
     def version(self):
-        return Version(self.pkg)
+        return Version(self._pkg)
 
     @property
     def changelog(self):
-        return ChangeLog(self.pkg)
+        return ChangeLog(self._pkg)
 
     @property
     def run(self):
-        return Run(self.pkg)
+        return Run(self._pkg)
 
     def bump(self, version=None, description=None, changes=None):
         self.version.bump(version)
-        self.changelog.new(description=description, change=changes)
+        self.changelog.new(description=description, changes=changes)
 
     def release(self):
         return self.run.release()
@@ -382,7 +385,7 @@ class Keats(object):
         :return:
         :rtype:
         """
-        path = self.pkg.local_path("setup.py")
+        path = self._pkg.local_path("setup.py")
         if not isfile(path):
             with TemporaryFileWriter(path) as f:
                 lines = [
@@ -397,13 +400,9 @@ class Keats(object):
                     ),
                 ]
                 f.writelines(lines)
-                self.pkg.run_cmd(cmd, *args)
+                self._pkg.run_cmd(cmd, *args)
         else:
-            self.pkg.run_cmd(cmd, *args)
-
-    @requires_config
-    def release(self):
-        return self.run.release()
+            self._pkg.run_cmd(cmd, *args)
 
     # TODO: flesh this out with Jinja? When do we need a full setup.py file?
     @requires_config
@@ -417,31 +416,6 @@ class Keats(object):
         :rtype:
         """
         self.global_install(*args, cmd="pip install -e .")
-
-
-        :return:
-        """
-        self.run.install()
-        self.version.up()
-
-    def update(self, cache="pypi"):
-        """
-        Update keats in this project.
-
-        :param clear: if provided, will clear the poetry cache (default: pypi)
-
-        :return:
-        """
-        self.run.update(cache=cache)
-
-        #
-        # for k in ["dependencies", "dev-dependencies"]:
-        #     not_found = []
-        #     for l in config["tool"]["poetry"][k]:
-        #         if not find(l):
-        #             not_found.append(l)
-        #     if not_found:
-        #         print("Could not find {}: {}".format(k, " ".join(not_found)))
 
 
 def main():

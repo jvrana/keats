@@ -1,4 +1,11 @@
 {
+  "0.2.15": {
+    "description": "bug fix",
+    "date": "2019-07-05T15:06:43.817247",
+    "changes": [
+      "during update, poetry cache was not clearing"
+    ]
+  },
   "0.2.14": {
     "description": "change to interface",
     "date": "2019-07-05T11:37:54.021629",
@@ -123,11 +130,11 @@
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
   },
-  "0.2.15": {
-    "description": "bug fix",
-    "date": "2019-07-05T15:06:43.817247",
+  "0.2.17": {
+    "description": "new features",
+    "date": "2019-07-07T13:28:00.960624",
     "changes": [
-      "during update, poetry cache was not clearing"
+      "new develop and global_install commands"
     ]
   }
 }

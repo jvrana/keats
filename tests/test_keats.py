@@ -31,7 +31,7 @@ def test_version_json(fake_keats):
     We then check the contents of that file with 'exec' and verify its
     contents with the package info"""
 
-    version_path = fake_keats.pkg.version_py()
+    version_path = fake_keats.pkg().version_py()
     assert not isfile(version_path)
     fake_keats.version.up()
     assert isfile(version_path)
