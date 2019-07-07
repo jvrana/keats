@@ -54,6 +54,9 @@ class TestChangeLog(object):
         fake_keats.version.bump()
         fake_keats.changelog.new("new description", ["new changes"])
 
+    def test_empty_changelog_up(self, fake_keats):
+        fake_keats.changelog.up()
+
     def test_mark_as_released(self, fake_keats):
         fake_keats.version.bump()
         fake_keats.changelog.new("new description", ["new changes"])

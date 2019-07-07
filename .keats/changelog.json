@@ -1,4 +1,12 @@
 {
+  "0.2.20": {
+    "description": "bug fixes",
+    "date": "2019-07-07T14:39:19.932877",
+    "changes": [
+      "fixed bug in which autogeneration tag displayed the wrong number",
+      "remove version.py, an legacy file"
+    ]
+  },
   "0.2.19": {
     "description": "minor api changes",
     "date": "2019-07-07T13:41:14.833050",
@@ -152,12 +160,11 @@
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
   },
-  "0.2.20": {
+  "0.2.21": {
     "description": "bug fixes",
-    "date": "2019-07-07T14:39:19.932877",
+    "date": "2019-07-07T14:44:16.586064",
     "changes": [
-      "fixed bug in which autogeneration tag displayed the wrong number",
-      "remove version.py, an legacy file"
+      "fixed bug that was causing error when initializing a new changelog"
     ]
   }
 }

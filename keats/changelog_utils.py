@@ -34,7 +34,7 @@ class ChangeLogWriter(object):
             with open(self.path, "r") as f:
                 text = f.read()
                 if text.strip() == "":
-                    changelog = []
+                    changelog = {}
                 else:
                     changelog = json.loads(text)
         else:
@@ -75,7 +75,7 @@ class ChangeLogWriter(object):
 
     def save_to_markdown(self):
         with open(self.path, "w") as f:
-            f.write(self.to_markdown(self.log))
+            f.write(self.to_markdown())
 
     def write(self, d):
         with open(self.path, "w") as f:
