@@ -1,4 +1,12 @@
 {
+  "0.2.18": {
+    "description": "new features",
+    "date": "2019-07-07T13:29:00.145886",
+    "changes": [
+      "new global_install and develop commands",
+      "exits gracefully from the cli if cwd is does not have a pyproject.toml file"
+    ]
+  },
   "0.2.17": {
     "description": "new features",
     "date": "2019-07-07T13:28:00.960624",
@@ -137,12 +145,11 @@
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
   },
-  "0.2.18": {
-    "description": "new features",
-    "date": "2019-07-07T13:29:00.145886",
+  "0.2.19": {
+    "description": "minor api changes",
+    "date": "2019-07-07T13:37:39.172453",
     "changes": [
-      "new global_install and develop commands",
-      "exits gracefully from the cli if cwd is does not have a pyproject.toml file"
+      "develop will now remove 'dist' and 'pip-wheel-metadata' folders"
     ]
   }
 }

@@ -6,6 +6,8 @@ from termcolor import cprint
 from functools import wraps
 import toml
 import fire
+import shutil
+
 
 PYPROJECT = "pyproject.toml"
 RED = "\u001b[31m"
@@ -404,6 +406,19 @@ class Keats(object):
         else:
             self._pkg.run_cmd(cmd, *args)
 
+    def clean_dist(self):
+        """
+        Removes 'dist' and 'pip-wheel-metadata' if they exist
+        :return:
+        :rtype:
+        """
+        folders = ['dist', 'pip-wheel-metadata']
+
+        for folder in folders:
+            if isdir(folder):
+                shutil.rmtree(folder)
+
+
     # TODO: flesh this out with Jinja? When do we need a full setup.py file?
     @requires_config
     def develop(self, *args):
@@ -415,6 +430,7 @@ class Keats(object):
         :return:
         :rtype:
         """
+        self.clean_dist()
         self.global_install(*args, cmd="pip install -e .")
 
 
