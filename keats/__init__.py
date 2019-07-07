@@ -1,14 +1,10 @@
 import os
 from os.path import join, abspath, dirname, isfile, isdir
 from warnings import warn
-
-import fire
-import toml
-from functools import wraps
-
-
-from .changelog_utils import update_changelog_interactive, save_to_markdown
 from .version import __version__, __name__
+from .changelog_utils import ChangeLogWriter
+from termcolor import cprint
+
 
 PYPROJECT = "pyproject.toml"
 RED = "\u001b[31m"
@@ -17,7 +13,11 @@ VERSIONPY = "__version__.py"
 
 
 def err(msg):
-    return RED + msg + RESET
+    return cprint(msg, "red")
+
+
+def info(msg):
+    return cprint(msg, "blue")
 
 
 keats_version = __name__ + " " + __version__
@@ -25,7 +25,7 @@ keats_version = __name__ + " " + __version__
 
 class Pkg(object):
     def __init__(self, directory, filename):
-        self.path = join(directory, filename)
+        self.path = join(str(directory), str(filename))
         self.directory = directory
 
     def valid(self):
@@ -88,6 +88,12 @@ class Pkg(object):
             pkgs = [self._get("name")]
         return pkgs
 
+    def dependencies(self):
+        return self.config["tool"]["poetry"]["dependencies"]
+
+    def dev_dependencies(self):
+        return self.config["tool"]["poetry"]["dev-dependencies"]
+
     def name(self):
         return self._get("name")
 
@@ -102,7 +108,9 @@ class Pkg(object):
 
     def run_cmd(self, *cmd):
         cline = "(cd {}; {})".format(self.directory, " ".join(cmd))
-        print(cline)
+        cprint("spawning shell ({})".format(self.directory), "blue")
+        cprint(" ".join(cmd), "yellow")
+        cprint("exiting shell", "blue")
         return os.system(cline)
 
     def run_poetry_cmd(self, *cmd):
@@ -160,6 +168,31 @@ class Run(Base):
     def document(self):
         pass
 
+    def clear_cache(self, cachename="pypi"):
+        info("clearing poetry cache")
+        self._cmd("poetry cache:clear --all {}".format(cachename))
+
+    def install(self):
+        """
+        Install keats to this project.
+
+        :return:
+        """
+        self._cmd("poetry add --dev keats")
+
+    def update(self, cache="pypi"):
+        """
+        Update keats in this project.
+
+        :param clear: if provided, will clear the poetry cache (default: pypi)
+
+        :return:
+        """
+        self._cmd("poetry remove --dev keats")
+        if cache:
+            self.clear_cache(cache)
+        self.install()
+
 
 class Version(Base):
     @requires_config
@@ -211,7 +244,7 @@ class Version(Base):
                     lines.append("__{}__ = {}\n".format(k, v))
                 f.writelines(lines)
         else:
-            print("no files written")
+            info("no files written")
 
 
 class ChangeLog(Base):
@@ -232,22 +265,23 @@ class ChangeLog(Base):
     @requires_config
     def up(self):
         """Save changelog to a markdown file."""
-        save_to_markdown(self._json, self._markdown)
+        self.writer.save_to_markdown()
 
     @requires_config
     def clear(self):
         """Clear the changelog files."""
-        print(self._json)
-        if isfile(self._json):
-            os.remove(self._json)
-        if isfile(self._markdown):
-            os.remove(self._markdown)
+        if isfile(self.writer.path):
+            os.remove(self.writer.path)
+        if isfile(self.writer.mdpath):
+            os.remove(self.writer.mdpath)
 
-    @requires_config
-    def new(self):
+    def mark_as_released(self):
+        self.writer.mark_as_released(self._get("version"))
+
+    def new(self, description=None, changes=None):
         """Interactively add a changelog entry. Entries are located in the '.keats' folder."""
-        update_changelog_interactive(
-            self._get("version"), self._json, self._markdown, self.pkg.package()
+        self.writer.update_interactive(
+            self._get("version"), description=description, changes=changes
         )
 
 
@@ -275,8 +309,13 @@ class TemporaryFileWriter(TemporaryPath):
 
 
 class Keats(object):
+    """Python version and worfklow release manager
+
+    Usage `keats [command] [arguments]`
+    """
+
     def __init__(self, directory=os.getcwd(), filename=PYPROJECT):
-        self.pkg = Pkg(directory, filename)
+        self.pkg = Pkg(str(directory), str(filename))
 
     @requires_config
     def info(self):
@@ -326,10 +365,12 @@ class Keats(object):
     def run(self):
         return Run(self.pkg)
 
-    @requires_config
-    def bump(self, version=None):
+    def bump(self, version=None, description=None, changes=None):
         self.version.bump(version)
-        self.changelog.new()
+        self.changelog.new(description=description, change=changes)
+
+    def release(self):
+        return self.run.release()
 
     @requires_config
     def global_install(self, *args, cmd="pip install ."):
@@ -378,8 +419,29 @@ class Keats(object):
         self.global_install(*args, cmd="pip install -e .")
 
 
-here = abspath(dirname(__file__))
-self_keats = Keats(join(here, ".."))
+        :return:
+        """
+        self.run.install()
+        self.version.up()
+
+    def update(self, cache="pypi"):
+        """
+        Update keats in this project.
+
+        :param clear: if provided, will clear the poetry cache (default: pypi)
+
+        :return:
+        """
+        self.run.update(cache=cache)
+
+        #
+        # for k in ["dependencies", "dev-dependencies"]:
+        #     not_found = []
+        #     for l in config["tool"]["poetry"][k]:
+        #         if not find(l):
+        #             not_found.append(l)
+        #     if not_found:
+        #         print("Could not find {}: {}".format(k, " ".join(not_found)))
 
 
 def main():

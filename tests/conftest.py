@@ -16,10 +16,10 @@ def fake_pyproject():
 @pytest.fixture
 def fake_project(fake_pyproject, tmpdir):
     f = tmpdir.mkdir("testpackage")
-    f2 = f.mkdir("testpackage")
-    f2 = f.mkdir("tests")
+    f.mkdir("testpackage")
+    f.mkdir("tests")
 
-    shutil.copy(fake_pyproject, join(f, "pyproject.toml"))
+    shutil.copy(fake_pyproject, join(str(f), "pyproject.toml"))
     return f
 
 

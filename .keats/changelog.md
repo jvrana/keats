@@ -1,11 +1,117 @@
 # keats change log
-## 0.2.17
+## 0.2.15
 
-**2019-07-07T13:13:10.789019**
-minor release
+**2019-07-05T15:06:43.817247**
+bug fix
 
- - no longer errors when keats is not in a project; instead prints a helpful message
- - new 'develop' (pip install -e .) and 'global_install' (pip install .) commands
+ - during update, poetry cache was not clearing
+
+
+## 0.2.14
+
+**2019-07-05T11:37:54.021629**
+change to interface
+
+ - update and install will now be quiet
+
+
+## 0.2.13
+
+**2019-07-05T11:33:10.379093**
+new features
+
+ - added 'install' and 'update' methods to cline
+
+
+## 0.2.12
+
+**2019-07-05T11:22:14.488037**
+update to release script
+
+ - more information displayed for publishing repository
+
+
+## 0.2.11
+
+**2019-07-05T11:19:45.284233**
+bug fixes
+
+ - fixed release script
+
+
+## 0.2.10
+
+**2019-07-05T11:18:17.928748**
+
+
+
+
+
+## 0.2.9
+
+**2019-07-05T11:16:36.512630**
+
+
+ - updates to cli documentation
+ - update to interactive scripts
+
+
+## 0.2.8
+
+**2019-07-05T10:00:22.396703**
+minor api change
+
+ - release can be accessed from 'keats release' instead of 'keats run release'
+ - updated README.md
+
+
+## 0.2.7
+
+**2019-07-05T09:18:24.979212**
+Adds support for lesser Python3 versions
+
+ - support for py35, py35, py37
+ - added tox tests
+
+
+## 0.2.6
+
+**2019-07-04T21:20:54.169900**
+minor bug fix
+
+ - fixed bug that was causing warning about missing file
+
+
+## 0.2.5
+
+**2019-07-04T21:18:38.725436**
+
+
+
+
+
+## 0.2.4
+
+**2019-07-04T21:10:34.993149**
+updated package info
+
+
+
+
+## 0.2.3
+
+**2019-07-04T21:08:29.136853**
+updated readme
+
+
+
+
+## 0.2.2
+
+**2019-07-04T21:05:35.607437**
+minor change
+
+ - added pypi classifiers
 
 
 ## 0.2.1
@@ -53,6 +159,3 @@ refactored and api changes
 ## 0.0.3
 
 **2019-07-04T19:32:36.374869**
-
-
-

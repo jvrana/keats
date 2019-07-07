@@ -1,93 +1,126 @@
 import datetime
-from os.path import isfile, join, abspath, dirname, isdir
-from os import mkdir, remove
+from os.path import isfile
 import json
 
 from collections import OrderedDict
 
 
-ENTRY_TEMPLATE = """
-## {version}
+class ChangeLogWriter(object):
+    ENTRY_TEMPLATE = """
+    ## {version}
 
-**{date}**
-{description}
+    **{date}**
+    {description}
 
-{changes}
-"""
+    {changes}
+    """
 
+    DESCRIPTION = "description"
+    CHANGES = "changes"
+    RELEASE = "release"
+    DATE = "date"
 
-def new_entry(d, changes):
-    now = datetime.datetime.now()
-    return {"description": d, "date": now.isoformat(), "changes": changes}
+    def __init__(self, path, title, mdpath):
+        self.path = path
+        self.title = title
+        self.mdpath = mdpath
 
+    @property
+    def log(self):
+        return self._load()
 
-def to_markdown(data, title=""):
-    if not title:
-        s = "# change log"
-    else:
-        s = "# {} change log".format(title)
+    def _load(self):
+        if isfile(self.path):
+            with open(self.path, "r") as f:
+                text = f.read()
+                if text.strip() == "":
+                    changelog = []
+                else:
+                    changelog = json.loads(text)
+        else:
+            changelog = {}
 
-    entries = []
-    for k, d in data.items():
-        changes = "\n".join([" - " + c for c in d["changes"]])
-        entry = ENTRY_TEMPLATE.format(
-            version=k, date=d["date"], description=d["description"], changes=changes
+        sorted_entries = sorted(
+            [(k, v) for k, v in changelog.items()],
+            key=lambda x: x[1][self.DATE],
+            reverse=True,
         )
-        entries.append(entry)
-    s += "\n".join(entries)
-    return s
+        return OrderedDict(sorted_entries)
 
-
-def load(changelogpath):
-    if isfile(changelogpath):
-        with open(changelogpath, "r") as f:
-            text = f.read()
-            if text.strip() == "":
-                changelog = []
-            else:
-                changelog = json.loads(text)
-    else:
-        changelog = {}
-
-    sorted_entries = sorted(
-        [(k, v) for k, v in changelog.items()], key=lambda x: x[1]["date"], reverse=True
-    )
-    return OrderedDict(sorted_entries)
-
-
-def update(version, description, changes, changelogpath):
-    changelog = load(changelogpath)
-
-    if version in changelog:
-        entry = changelog[version]
-        entry["description"] = description
-
+    @classmethod
+    def new_entry(cls, d, changes):
         now = datetime.datetime.now()
-        entry["date"] = now.isoformat()
-        unique_changes = []
-        for e in entry["changes"] + changes:
-            if e not in unique_changes:
-                unique_changes.append(e)
-        entry["changes"] = unique_changes
-    else:
-        entry = new_entry(description, changes)
-    changelog[version] = entry
-    with open(changelogpath, "w") as f:
-        json.dump(changelog, f, indent=2)
+        return {cls.DESCRIPTION: d, cls.DATE: now.isoformat(), cls.CHANGES: changes}
 
+    def to_markdown(self):
+        if not self.title:
+            s = "# change log"
+        else:
+            s = "# {} change log".format(self.title)
 
-def save_to_markdown(changelogpath, path, title=""):
-    with open(path, "w") as f:
-        f.write(to_markdown(load(changelogpath), title=title))
+        entries = []
+        for k, d in self.log.items():
+            changes = "\n".join([" - " + c for c in d[self.CHANGES]])
+            entry = self.ENTRY_TEMPLATE.format(
+                version=k,
+                date=d[self.DATE],
+                description=d[self.DESCRIPTION],
+                changes=changes,
+            )
+            if "released" in d:
+                entry += "\n" + d["released"]
+            entries.append(entry)
+        s += "\n".join(entries)
+        return s
 
+    def save_to_markdown(self):
+        with open(self.path, "w") as f:
+            f.write(self.to_markdown(self.log))
 
-def update_changelog_interactive(version, changelogpath, markdownpath, title=""):
-    description = input("Add a description: ")
-    change_input = None
-    changes = []
-    while change_input != "":
-        if change_input is not None:
-            changes.append(change_input)
-        change_input = input("List a change (ENTER to finish): ").strip()
-    update(version, description, changes, changelogpath)
-    save_to_markdown(changelogpath, markdownpath, title=title)
+    def write(self, d):
+        with open(self.path, "w") as f:
+            json.dump(d, f, indent=2)
+
+    def update(self, version, description, changes):
+        changelog = self.log
+
+        if version in changelog:
+            entry = changelog[version]
+            if description.strip():
+                entry[self.DESCRIPTION] = description
+
+            now = datetime.datetime.now()
+            entry[self.DATE] = now.isoformat()
+            unique_changes = []
+            for e in entry[self.CHANGES] + changes:
+                if e not in unique_changes:
+                    unique_changes.append(e)
+            entry[self.CHANGES] = unique_changes
+        else:
+            entry = self.new_entry(description, changes)
+        changelog[version] = entry
+        self.write(changelog)
+
+    def mark_as_released(self, version):
+        d = self.log
+        now = datetime.datetime.now()
+        if "released" not in d[version]:
+            d[version]["released"] = now.isoformat()
+        self.write(d)
+
+    def update_interactive(self, version, description=None, changes=None):
+        if not description:
+            description = input(
+                "Add a description for {} (ENTER to skip): ".format(version)
+            )
+        if isinstance(changes, str):
+            changes = [c.strip() for c in changes.split(",")]
+        if not changes:
+            change_input = None
+            if not changes:
+                changes = []
+                while change_input != "":
+                    if change_input is not None:
+                        changes.append(change_input)
+                    change_input = input("Add a change (ENTER to finish): ").strip()
+        self.update(version, description, changes)

@@ -49,6 +49,17 @@ def test_version_json(fake_keats):
             assert globals[key] == v
 
 
+class TestChangeLog(object):
+    def test_bump_and_new(self, fake_keats):
+        fake_keats.version.bump()
+        fake_keats.changelog.new("new description", ["new changes"])
+
+    def test_mark_as_released(self, fake_keats):
+        fake_keats.version.bump()
+        fake_keats.changelog.new("new description", ["new changes"])
+        fake_keats.changelog.mark_as_released()
+
+
 def test_bump(fake_keats):
     """We expect the version to be bump by one increment"""
     assert fake_keats.v() == "9.9.9"

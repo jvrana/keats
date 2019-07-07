@@ -1,4 +1,90 @@
 {
+  "0.2.14": {
+    "description": "change to interface",
+    "date": "2019-07-05T11:37:54.021629",
+    "changes": [
+      "update and install will now be quiet"
+    ]
+  },
+  "0.2.13": {
+    "description": "new features",
+    "date": "2019-07-05T11:33:10.379093",
+    "changes": [
+      "added 'install' and 'update' methods to cline"
+    ]
+  },
+  "0.2.12": {
+    "description": "update to release script",
+    "date": "2019-07-05T11:22:14.488037",
+    "changes": [
+      "more information displayed for publishing repository"
+    ]
+  },
+  "0.2.11": {
+    "description": "bug fixes",
+    "date": "2019-07-05T11:19:45.284233",
+    "changes": [
+      "fixed release script"
+    ]
+  },
+  "0.2.10": {
+    "description": "",
+    "date": "2019-07-05T11:18:17.928748",
+    "changes": []
+  },
+  "0.2.9": {
+    "description": "",
+    "date": "2019-07-05T11:16:36.512630",
+    "changes": [
+      "updates to cli documentation",
+      "update to interactive scripts"
+    ]
+  },
+  "0.2.8": {
+    "description": "minor api change",
+    "date": "2019-07-05T10:00:22.396703",
+    "changes": [
+      "release can be accessed from 'keats release' instead of 'keats run release'",
+      "updated README.md"
+    ]
+  },
+  "0.2.7": {
+    "description": "Adds support for lesser Python3 versions",
+    "date": "2019-07-05T09:18:24.979212",
+    "changes": [
+      "support for py35, py35, py37",
+      "added tox tests"
+    ]
+  },
+  "0.2.6": {
+    "description": "minor bug fix",
+    "date": "2019-07-04T21:20:54.169900",
+    "changes": [
+      "fixed bug that was causing warning about missing file"
+    ]
+  },
+  "0.2.5": {
+    "description": "",
+    "date": "2019-07-04T21:18:38.725436",
+    "changes": []
+  },
+  "0.2.4": {
+    "description": "updated package info",
+    "date": "2019-07-04T21:10:34.993149",
+    "changes": []
+  },
+  "0.2.3": {
+    "description": "updated readme",
+    "date": "2019-07-04T21:08:29.136853",
+    "changes": []
+  },
+  "0.2.2": {
+    "description": "minor change",
+    "date": "2019-07-04T21:05:35.607437",
+    "changes": [
+      "added pypi classifiers"
+    ]
+  },
   "0.2.1": {
     "description": "fixed bug",
     "date": "2019-07-04T20:13:05.147834",
@@ -37,12 +123,11 @@
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
   },
-  "0.2.17": {
-    "description": "minor release",
-    "date": "2019-07-07T13:13:10.789019",
+  "0.2.15": {
+    "description": "bug fix",
+    "date": "2019-07-05T15:06:43.817247",
     "changes": [
-      "no longer errors when keats is not in a project; instead prints a helpful message",
-      "new 'develop' (pip install -e .) and 'global_install' (pip install .) commands"
+      "during update, poetry cache was not clearing"
     ]
   }
 }
