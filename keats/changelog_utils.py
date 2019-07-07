@@ -4,16 +4,16 @@ import json
 
 from collections import OrderedDict
 
+ENTRY_TEMPLATE = """
+## {version}
+**{date}**
+{description}
+
+{changes}
+"""
 
 class ChangeLogWriter(object):
-    ENTRY_TEMPLATE = """
-    ## {version}
 
-    **{date}**
-    {description}
-
-    {changes}
-    """
 
     DESCRIPTION = "description"
     CHANGES = "changes"
@@ -39,10 +39,13 @@ class ChangeLogWriter(object):
                     changelog = json.loads(text)
         else:
             changelog = {}
+        return self._sort_changelog(changelog)
 
+    @classmethod
+    def _sort_changelog(cls, changelog):
         sorted_entries = sorted(
             [(k, v) for k, v in changelog.items()],
-            key=lambda x: x[1][self.DATE],
+            key=lambda x: x[1][cls.DATE],
             reverse=True,
         )
         return OrderedDict(sorted_entries)
@@ -61,7 +64,7 @@ class ChangeLogWriter(object):
         entries = []
         for k, d in self.log.items():
             changes = "\n".join([" - " + c for c in d[self.CHANGES]])
-            entry = self.ENTRY_TEMPLATE.format(
+            entry = ENTRY_TEMPLATE.format(
                 version=k,
                 date=d[self.DATE],
                 description=d[self.DESCRIPTION],
@@ -74,12 +77,12 @@ class ChangeLogWriter(object):
         return s
 
     def save_to_markdown(self):
-        with open(self.path, "w") as f:
+        with open(self.mdpath, "w") as f:
             f.write(self.to_markdown())
 
     def write(self, d):
         with open(self.path, "w") as f:
-            json.dump(d, f, indent=2)
+            json.dump(self._sort_changelog(d), f, indent=2)
 
     def update(self, version, description, changes):
         changelog = self.log

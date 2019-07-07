@@ -253,7 +253,7 @@ class ChangeLog(Base):
         super().__init__(path)
         path = join(self._dir(), "changelog.json")
         mdpath = join(self._dir(), "changelog.md")
-        title = self._pkg.name
+        title = self._pkg.name()
         self.writer = ChangeLogWriter(path=path, title=title, mdpath=mdpath)
 
     def _dir(self):
@@ -393,10 +393,10 @@ class Keats(object):
                     "from distutils.core import setup\n",
                     "\n",
                     'setup(title="{title}", name="{name}", version="{version}", packages={packages})\n'.format(
-                        title=self.name,
-                        name=self.name,
+                        title=self.name(),
+                        name=self.name(),
                         version=self.v(),
-                        packages=self.packages,
+                        packages=self.packages(),
                     ),
                 ]
                 f.writelines(lines)
