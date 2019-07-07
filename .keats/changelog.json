@@ -1,7 +1,7 @@
 {
   "0.2.22": {
     "description": "fixed changelog bugs",
-    "date": "2019-07-07T14:58:21.944564",
+    "date": "2019-07-07T14:59:32.805161",
     "changes": [
       "fixed error in which uninitialized project would through error due to changelog being missing",
       "changelog json is now sorted by date",

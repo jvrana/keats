@@ -12,8 +12,8 @@ ENTRY_TEMPLATE = """
 {changes}
 """
 
-class ChangeLogWriter(object):
 
+class ChangeLogWriter(object):
 
     DESCRIPTION = "description"
     CHANGES = "changes"
