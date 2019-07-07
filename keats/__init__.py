@@ -412,12 +412,11 @@ class Keats(object):
         :return:
         :rtype:
         """
-        folders = ['dist', 'pip-wheel-metadata']
+        folders = ["dist", "pip-wheel-metadata"]
 
         for folder in folders:
             if isdir(folder):
                 shutil.rmtree(folder)
-
 
     # TODO: flesh this out with Jinja? When do we need a full setup.py file?
     @requires_config
