@@ -1,4 +1,6 @@
 from os.path import dirname, join, abspath, isfile
+from keats import Keats
+
 
 here = join(abspath(dirname(__file__)))
 data = join(here, "data")
@@ -6,17 +8,17 @@ data = join(here, "data")
 
 def test_version(fake_keats):
     """We expect the version to be correctly returned"""
-    assert fake_keats.v == "9.9.9"
+    assert fake_keats.v() == "9.9.9"
 
 
 def test_package(fake_keats):
     """We expect the package name to be correctly returned"""
-    assert fake_keats.package == "testpackage"
+    assert fake_keats.package() == "testpackage"
 
 
 def test_name(fake_keats):
     """We expect the package name to be correctly returned"""
-    assert fake_keats.name == "mypkg"
+    assert fake_keats.name() == "mypkg"
 
 
 def test_format(fake_keats):
@@ -49,13 +51,18 @@ def test_version_json(fake_keats):
 
 def test_bump(fake_keats):
     """We expect the version to be bump by one increment"""
-    assert fake_keats.v == "9.9.9"
+    assert fake_keats.v() == "9.9.9"
     fake_keats.version.bump()
-    assert fake_keats.v == "9.9.10"
+    assert fake_keats.v() == "9.9.10"
 
 
 def test_bump_specific(fake_keats):
     """We expect the version to be bumped by user specified version"""
-    assert fake_keats.v == "9.9.9"
+    assert fake_keats.v() == "9.9.9"
     fake_keats.version.bump("1.0.0")
-    assert fake_keats.v == "1.0.0"
+    assert fake_keats.v() == "1.0.0"
+
+
+def test_no_pyproject_toml(tmpdir):
+    f = tmpdir.mkdir("testpackage")
+    Keats()

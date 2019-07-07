@@ -1,4 +1,13 @@
 # keats change log
+## 0.2.17
+
+**2019-07-07T13:13:10.789019**
+minor release
+
+ - no longer errors when keats is not in a project; instead prints a helpful message
+ - new 'develop' (pip install -e .) and 'global_install' (pip install .) commands
+
+
 ## 0.2.1
 
 **2019-07-04T20:13:05.147834**

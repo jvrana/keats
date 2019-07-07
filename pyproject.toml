@@ -1,12 +1,13 @@
 [tool.poetry]
 name = "keats"
-version = "0.2.1"
+version = "0.2.17"
 description = ""
 authors = ["jvrana <justin.vrana@gmail.com>"]
 packages = [
     { include = "keats" },
     { include = "keat_scripts" }
 ]
+
 [tool.poetry.dependencies]
 python = "^3.7"
 toml = "^0.10.0"
