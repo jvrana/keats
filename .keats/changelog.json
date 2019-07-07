@@ -1,4 +1,11 @@
 {
+  "0.2.17": {
+    "description": "new features",
+    "date": "2019-07-07T13:28:00.960624",
+    "changes": [
+      "new develop and global_install commands"
+    ]
+  },
   "0.2.15": {
     "description": "bug fix",
     "date": "2019-07-05T15:06:43.817247",
@@ -130,11 +137,12 @@
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
   },
-  "0.2.17": {
+  "0.2.18": {
     "description": "new features",
-    "date": "2019-07-07T13:28:00.960624",
+    "date": "2019-07-07T13:29:00.145886",
     "changes": [
-      "new develop and global_install commands"
+      "new global_install and develop commands",
+      "exits gracefully from the cli if cwd is does not have a pyproject.toml file"
     ]
   }
 }
