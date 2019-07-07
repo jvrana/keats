@@ -151,5 +151,13 @@
     "description": "",
     "date": "2019-07-04T19:32:36.374869",
     "changes": []
+  },
+  "0.2.20": {
+    "description": "bug fixes",
+    "date": "2019-07-07T14:39:19.932877",
+    "changes": [
+      "fixed bug in which autogeneration tag displayed the wrong number",
+      "remove version.py, an legacy file"
+    ]
   }
 }
