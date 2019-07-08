@@ -1,4 +1,11 @@
 {
+  "0.2.23": {
+    "description": "minor features",
+    "date": "2019-07-07T21:25:53.051008",
+    "changes": [
+      "added Safe file writer for changelog"
+    ]
+  },
   "0.2.22": {
     "description": "fixed changelog bugs",
     "date": "2019-07-07T14:59:32.805161",
