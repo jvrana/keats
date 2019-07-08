@@ -1,7 +1,10 @@
 import datetime
 from os.path import isfile
 import json
-
+import shutil
+from os.path import abspath, dirname, basename
+import os
+import tempfile
 from collections import OrderedDict
 
 ENTRY_TEMPLATE = """
@@ -11,6 +14,7 @@ ENTRY_TEMPLATE = """
 
 {changes}
 """
+
 
 class TemporaryPath(object):
     def __init__(self, path):
@@ -24,19 +28,15 @@ class TemporaryPath(object):
         if not self.existed and isfile(self.path):
             os.remove(self.path)
 
-import shutil
-from os.path import abspath, dirname, basename
-import os
-import tempfile
-
 
 class SafeFileWriter(object):
     """A safe temporary file will be written. If no exceptions occur, the file will be
     copied to the location in the path. Otherwise, the temp file will be deleted."""
-    def __init__(self, path, mode='w'):
+
+    def __init__(self, path, mode="w"):
         self.path = abspath(path)
-        prefix = ''
-        suffix = '.safe.backup'
+        prefix = ""
+        suffix = ".safe.backup"
         _, self.tmp_path = tempfile.mkstemp(prefix=prefix, suffix=suffix)
         self.file = None
         self.mode = mode
@@ -46,15 +46,10 @@ class SafeFileWriter(object):
         return self.file
 
     def __exit__(self, exception_type, exception_value, traceback):
-        with open(self.tmp_path, 'r') as f:
-            print(f.read())
+        self.file.close()
         if not exception_type:
-            print("Copying file")
             shutil.copyfile(self.tmp_path, self.path)
         os.remove(self.tmp_path)
-        with open(self.path, 'r') as f:
-            print(f.read())
-        self.file.close()
 
 
 class ChangeLogWriter(object):
@@ -121,11 +116,11 @@ class ChangeLogWriter(object):
         return s
 
     def save_to_markdown(self):
-        with SafeFileWriter(self.mdpath, 'w') as f:
+        with SafeFileWriter(self.mdpath, "w") as f:
             f.write(self.to_markdown())
 
     def write(self, d):
-        with SafeFileWriter(self.path, 'w') as f:
+        with SafeFileWriter(self.path, "w") as f:
             json.dump(self._sort_changelog(d), f, indent=2)
 
     def update(self, version, description, changes):
