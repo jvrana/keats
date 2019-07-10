@@ -256,6 +256,7 @@ class ChangeLog(Base):
         title = self._pkg.name()
         self.writer = ChangeLogWriter(path=path, title=title, mdpath=mdpath)
 
+    @requires_config
     def _dir(self):
         d = join(self._pkg.directory, ".keats")
         if not isdir(d):
@@ -275,9 +276,11 @@ class ChangeLog(Base):
         if isfile(self.writer.mdpath):
             os.remove(self.writer.mdpath)
 
+    @requires_config
     def mark_as_released(self):
         self.writer.mark_as_released(self._get("version"))
 
+    @requires_config
     def new(self, description=None, changes=None):
         """Interactively add a changelog entry. Entries are located in the '.keats' folder."""
         self.writer.update_interactive(
