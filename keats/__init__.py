@@ -431,8 +431,19 @@ class Keats(object):
         :rtype:
         """
         self.clean_dist()
+        setup = join(self._pkg.directory, 'setup.py')
+        requirements = join(self._pkg.directory, 'requirements.txt')
+        if isfile(setup):
+            print("Creating temporary setup.py files")
+            do_remove = True
+            self.run._cmd("poetry-setup")
+        else:
+            do_remove = False
         self.global_install(*args, cmd="pip install -e .")
-
+        if do_remove:
+            print("Removing setup files")
+            os.remove(setup)
+            os.remove(requirements)
 
 def main():
     fire.Fire(Keats)
