@@ -431,8 +431,8 @@ class Keats(object):
         :rtype:
         """
         self.clean_dist()
-        setup = join(self._pkg.directory, 'setup.py')
-        requirements = join(self._pkg.directory, 'requirements.txt')
+        setup = join(self._pkg.directory, "setup.py")
+        requirements = join(self._pkg.directory, "requirements.txt")
         if isfile(setup):
             print("Creating temporary setup.py files")
             do_remove = True
@@ -444,6 +444,7 @@ class Keats(object):
             print("Removing setup files")
             os.remove(setup)
             os.remove(requirements)
+
 
 def main():
     fire.Fire(Keats)
