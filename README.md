@@ -1,5 +1,6 @@
 # Keats
 [![PyPI version](https://badge.fury.io/py/keats.svg)](https://badge.fury.io/py/keats)
+
 ![John Keats](assets/keats.jpg)
 
 Keats is an Python build, installation, and workflow manager.
