@@ -1,4 +1,34 @@
 # keats change log
+## 0.2.26
+**2019-07-29T10:19:39.575446**
+new functionality
+
+ - `keats install` will install keats to development and update changelog and version
+
+
+## 0.2.25
+**2019-07-28T07:44:49.444992**
+
+
+
+
+
+## 0.2.23
+**2019-07-07T21:25:53.051008**
+minor features
+
+ - added Safe file writer for changelog
+
+
+## 0.2.22
+**2019-07-07T14:59:32.805161**
+fixed changelog bugs
+
+ - fixed error in which uninitialized project would through error due to changelog being missing
+ - changelog json is now sorted by date
+ - fixed bug in which changelog.json would go missing if exception was thrown
+
+
 ## 0.2.21
 **2019-07-07T14:44:16.586064**
 bug fixes

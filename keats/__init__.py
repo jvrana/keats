@@ -176,14 +176,6 @@ class Run(Base):
         info("clearing poetry cache")
         self._cmd("poetry cache:clear --all {}".format(cachename))
 
-    def install(self):
-        """
-        Install keats to this project.
-
-        :return:
-        """
-        self._cmd("poetry add --dev keats")
-
     def update(self, cache="pypi"):
         """
         Update keats in this project.
@@ -377,6 +369,25 @@ class Keats(object):
 
     def release(self):
         return self.run.release()
+
+    def install(self):
+        """
+        Install keats to this project.
+
+        :return:
+        """
+        self.run._cmd("poetry add --dev keats")
+        self.up()
+
+    def up(self):
+        """
+        Update .keats/changelog.json and __version__.py
+
+        :return:
+        :rtype:
+        """
+        self.version.up()
+        self.changelog.up()
 
     @requires_config
     def global_install(self, *args, cmd="pip install ."):
