@@ -106,7 +106,7 @@ poetry run keats changelog up
 To clear your change logs:
 
 ```bash
-poetry rubn keats changelog clear
+poetry run keats changelog clear
 ```
 
 ## Global installation
