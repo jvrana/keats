@@ -3,7 +3,7 @@
 
 ![John Keats](assets/keats.jpg)
 
-Keats is an Python build, installation, and workflow manager. Keats removes the need to update an embedded version string for your packages by automatically creating and maintaining a `__version__.py` file and a corresponding `changelog.json` file and automatically updating the `pyproject.toml` file. Version updates are easy as calling `keats version`. Keats also includes an interactive release script, which can be called using `keats release`, which will release your package to your favorite repository such as PyPI.
+Keats is an Python build, installation, and workflow manager. Keats removes the need to update an embedded version string for your packages by automatically creating and maintaining a `__version__.py` file and a corresponding `changelog.json` file. Updates to `pyproject.toml` are automatically handled. Version updates are easy as calling `keats version`. Keats also includes an interactive release script, which can be called using `keats release`, which will release your package to your favorite repository such as PyPI.
 
 ## Why
 
