@@ -3,7 +3,7 @@
 
 ![John Keats](assets/keats.jpg)
 
-Keats is an Python build, installation, and workflow manager.
+Keats is an Python build, installation, and workflow manager. Keats removes the need to update an embedded version string for your packages.
 
 Features include forced change logs, release scripts, and package version control.
 
