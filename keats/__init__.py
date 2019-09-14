@@ -93,10 +93,10 @@ class Pkg(object):
         return pkgs
 
     def dependencies(self):
-        return self.config["tool"]["poetry"]["dependencies"]
+        return self.get_config()["tool"]["poetry"]["dependencies"]
 
     def dev_dependencies(self):
-        return self.config["tool"]["poetry"]["dev-dependencies"]
+        return self.get_config["tool"]["poetry"]["dev-dependencies"]
 
     def name(self):
         return self._get("name")
@@ -175,20 +175,6 @@ class Run(Base):
     def clear_cache(self, cachename="pypi"):
         info("clearing poetry cache")
         self._cmd("poetry cache:clear --all {}".format(cachename))
-
-    def update(self, cache="pypi"):
-        """
-        Update keats in this project.
-
-        :param clear: if provided, will clear the poetry cache (default: pypi)
-
-        :return:
-        """
-        self._cmd("poetry remove --dev keats")
-        if cache:
-            self.clear_cache(cache)
-        self.install()
-
 
 class Version(Base):
     @requires_config
@@ -325,7 +311,8 @@ class Keats(object):
         """
         return self._pkg.config_info()
 
-    def keats(self):
+    @staticmethod
+    def keats():
         """
         Return the keats version number.
 
@@ -418,7 +405,8 @@ class Keats(object):
         else:
             self._pkg.run_cmd(cmd, *args)
 
-    def clean_dist(self):
+    @staticmethod
+    def clean_dist():
         """
         Removes 'dist' and 'pip-wheel-metadata' if they exist
         :return:

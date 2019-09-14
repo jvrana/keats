@@ -40,13 +40,13 @@ def test_version_json(fake_keats):
 
     with open(version_path, "r") as f:
         text = f.read()
-        globals = {}
-        exec(text, globals)
+        globals_ = {}
+        exec(text, globals_)
 
         for k, v in pkg_info.items():
             key = "__{}__".format(k)
-            assert key in globals
-            assert globals[key] == v
+            assert key in globals_
+            assert globals_[key] == v
 
 
 class TestChangeLog(object):
@@ -78,5 +78,5 @@ def test_bump_specific(fake_keats):
 
 
 def test_no_pyproject_toml(tmpdir):
-    f = tmpdir.mkdir("testpackage")
+    tmpdir.mkdir("testpackage")
     Keats()

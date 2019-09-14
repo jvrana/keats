@@ -2,7 +2,7 @@ import datetime
 from os.path import isfile
 import json
 import shutil
-from os.path import abspath, dirname, basename
+from os.path import abspath
 import os
 import tempfile
 from collections import OrderedDict
