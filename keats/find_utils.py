@@ -1,9 +1,10 @@
+import re
+import sys
 from glob import glob
 from itertools import chain
-import re
-from os.path import abspath, isdir
 from os import rename
-import sys
+from os.path import abspath
+from os.path import isdir
 
 DEFAULTPKGNAME = "yourpackagename"
 
@@ -94,7 +95,7 @@ def initialize(pkgname, fromname=DEFAULTPKGNAME):
 
 
 if __name__ == "__main__":
-    try:
+    if len(sys.argv) >= 2:
         initialize(sys.argv[1], sys.argv[2])
-    except:
+    else:
         initialize(sys.argv[1])

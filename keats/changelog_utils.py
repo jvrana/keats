@@ -1,11 +1,13 @@
 import datetime
-from os.path import isfile
 import json
-import shutil
-from os.path import abspath
 import os
+import shutil
 import tempfile
 from collections import OrderedDict
+from os.path import abspath
+from os.path import basename
+from os.path import dirname
+from os.path import isfile
 
 ENTRY_TEMPLATE = """
 ## {version}
@@ -16,7 +18,7 @@ ENTRY_TEMPLATE = """
 """
 
 
-class TemporaryPath(object):
+class TemporaryPath:
     def __init__(self, path):
         self.path = path
         self.existed = isfile(path)
@@ -29,9 +31,12 @@ class TemporaryPath(object):
             os.remove(self.path)
 
 
-class SafeFileWriter(object):
-    """A safe temporary file will be written. If no exceptions occur, the file will be
-    copied to the location in the path. Otherwise, the temp file will be deleted."""
+class SafeFileWriter:
+    """A safe temporary file will be written.
+
+    If no exceptions occur, the file will be copied to the location in
+    the path. Otherwise, the temp file will be deleted.
+    """
 
     def __init__(self, path, mode="w"):
         self.path = abspath(path)
@@ -52,7 +57,7 @@ class SafeFileWriter(object):
         os.remove(self.tmp_path)
 
 
-class ChangeLogWriter(object):
+class ChangeLogWriter:
 
     DESCRIPTION = "description"
     CHANGES = "changes"
