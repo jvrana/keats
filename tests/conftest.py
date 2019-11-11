@@ -1,7 +1,10 @@
-from os.path import dirname, join, abspath
 import shutil
+from os.path import abspath
+from os.path import dirname
+from os.path import join
 
 import pytest
+
 from keats import Keats
 
 here = join(abspath(dirname(__file__)))
