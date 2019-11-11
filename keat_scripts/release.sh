@@ -97,14 +97,14 @@ fi
 TAG="v$VERSION"
 printf "\n$SEP Tagging branch as $TAG $SEP\n"
 if [ "$COMMIT" == 1 ]; then
-    git tag $TAG
+    git tag -a $TAG -m "keats autotagged version $TAG"
 else
     printf "$CWARN skipping tagging $END\n"
 fi
 
 if [ "$PUSH" == 1 ]; then
     git push
-    git push $TAG
+    git push origin $TAG
 fi
 
 
