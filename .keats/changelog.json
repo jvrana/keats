@@ -1,7 +1,7 @@
 {
   "0.2.28": {
     "description": "fixed git tag bug",
-    "date": "2019-11-11T08:40:31.018366",
+    "date": "2019-11-11T08:48:04.847170",
     "changes": [
       "fixes a bug where the release script would tag the wrong version on github"
     ]
