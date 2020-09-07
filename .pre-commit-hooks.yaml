@@ -3,5 +3,4 @@
     description: bumps package information from `pyproject.toml` to `<pkg>/__version__.py`
     entry: keats_version_up_hook
     language: python
-    always_run: false
     pass_filenames: true
