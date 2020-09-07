@@ -242,12 +242,12 @@ class Version(Base):
             if isinstance(v, str):
                 v = '"{}"'.format(v)
             lines.append("__{}__ = {}".format(k, v))
-        return '\n'.join(lines)
+        return "\n".join(lines)
 
     def _version_changed(self) -> bool:
         if not isfile(self._get_version_path()):
             return True
-        with open(self._get_version_path(), 'r') as f:
+        with open(self._get_version_path(), "r") as f:
             existing = f.read()
         return existing.strip() != self._version_str().strip()
 
@@ -350,20 +350,20 @@ class Keats:
     def _validate_config(self):
         pkg = self._pkg
         if not isfile(pkg.path):
-            raise FileNotFoundError("pyproject.toml was expected at {}".format(
-                pkg.local_path(pkg.path)
-            ))
+            raise FileNotFoundError(
+                "pyproject.toml was expected at {}".format(pkg.local_path(pkg.path))
+            )
 
     def _validate_pkg_path(self):
         pkg = self._pkg
         pkg_path = pkg.local_path(pkg.package())
         if not isdir(pkg_path):
-            raise NotADirectoryError("Expecting package directory '{}'. Make sure this directory is defined "
-                                     "correctly in `pyproject.toml`. If the package directory is included "
-                                     "in [tool.poetry.packages], make sure it is the first entry as this "
-                                     "is where keats expects to find the directory.".format(
-                pkg_path
-            ))
+            raise NotADirectoryError(
+                "Expecting package directory '{}'. Make sure this directory is defined "
+                "correctly in `pyproject.toml`. If the package directory is included "
+                "in [tool.poetry.packages], make sure it is the first entry as this "
+                "is where keats expects to find the directory.".format(pkg_path)
+            )
 
     def pkg(self):
         return self._pkg

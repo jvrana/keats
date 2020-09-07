@@ -1,11 +1,11 @@
 import argparse
 import logging
+import os
 from typing import Optional
 from typing import Sequence
 
 from keats import Keats
 from keats.hooks.utils import added_files
-import os
 
 logger = logging.getLogger("keats_version_up")
 logger.setLevel("DEBUG")
@@ -33,15 +33,13 @@ def run(filenames):
     logger.debug("Trigger files: {}".format(trigger_files))
     logger.debug("Triggered files: {}".format(triggered_files))
 
-    if triggered_files:
-        logger.debug("Version up triggered by {}".format(triggered_files))
-        keats = Keats()
-        if keats.version._version_changed():
-            logger.debug("Version change detected.")
-            keats.version.up()
-            retv = 1
-        else:
-            logger.debug("Version up canceled. No changes to be made.")
+    keats = Keats()
+    if keats.version._version_changed():
+        logger.info("Version change detected.")
+        keats.version.up()
+        retv = 1
+    else:
+        logger.debug("No changes to be made.")
     # else:
     #     keats = Keats()
     #     if not keats.version._exists():

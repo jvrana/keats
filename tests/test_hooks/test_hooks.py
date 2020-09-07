@@ -1,9 +1,13 @@
-from keats.hooks.utils import cmd_output
-from keats.hooks.keats_version_up import main, parse_args
-from keats import Keats
-from os.path import isfile, join
-from keats.hooks.keats_version_up import logger
+from os.path import isfile
+from os.path import join
+
 import pytest
+
+from keats import Keats
+from keats.hooks.keats_version_up import logger
+from keats.hooks.keats_version_up import main
+from keats.hooks.keats_version_up import parse_args
+from keats.hooks.utils import cmd_output
 
 
 @pytest.fixture(autouse=True)
@@ -42,21 +46,21 @@ class TestParseArgs:
 
 
 def test_temp_dir(temp_dir):
-    assert isfile(join(temp_dir, 'pyproject.toml'))
+    assert isfile(join(temp_dir, "pyproject.toml"))
     with temp_dir.as_cwd():
-        assert isfile('pyproject.toml')
+        assert isfile("pyproject.toml")
 
-    assert isfile(join(temp_dir, '.fixture'))
+    assert isfile(join(temp_dir, ".fixture"))
     with temp_dir.as_cwd():
-        assert isfile('.fixture')
+        assert isfile(".fixture")
 
 
-def test_adding_nothing(temp_dir):
+def test_version_missing(temp_dir):
     with temp_dir.as_cwd():
         # Should not fail with default
         temp_dir.join("f.py").write("a" * 10000)
         cmd_output("git", "add", "f.py")
-        assert main(argv=["f.py"]) == 0
+        assert main(argv=["f.py"]) == 1
 
 
 def test_adding_pyproject(temp_dir):
@@ -68,11 +72,11 @@ def test_adding_pyproject(temp_dir):
 
 def test_version_not_changed(temp_dir):
     with temp_dir.as_cwd():
-        assert not isfile(temp_dir.join('fakekeats/__version__.py'))
+        assert not isfile(temp_dir.join("fakekeats/__version__.py"))
         # Should not fail with default
         keats = Keats()
         keats.version.up()
-        assert isfile(temp_dir.join('fakekeats/__version__.py'))
+        assert isfile(temp_dir.join("fakekeats/__version__.py"))
 
         cmd_output("git", "add", "pyproject.toml")
         assert main(argv=["pyproject.toml"]) == 0
@@ -80,46 +84,46 @@ def test_version_not_changed(temp_dir):
 
 def test_version_changed(temp_dir):
     with temp_dir.as_cwd():
-        assert not isfile(temp_dir.join('fakekeats/__version__.py'))
+        assert not isfile(temp_dir.join("fakekeats/__version__.py"))
         # Should not fail with default
         keats = Keats()
         keats.version.up()
-        assert isfile(temp_dir.join('fakekeats/__version__.py'))
+        assert isfile(temp_dir.join("fakekeats/__version__.py"))
 
-        with open(temp_dir.join('fakekeats/__version__.py'), 'a') as f:
-            f.writelines(['# this is an extra line'])
+        with open(temp_dir.join("fakekeats/__version__.py"), "a") as f:
+            f.writelines(["# this is an extra line"])
 
         cmd_output("git", "add", "pyproject.toml")
         assert main(argv=["pyproject.toml"]) == 1
 
 
 def test_verbose_vvv(temp_dir):
-    from keats.hooks.keats_version_up import logger
-    logger.setLevel("CRITICAL")
-    print(logger.level)
-    assert not logger.isEnabledFor(10)
-    main(argv=["-vvv"])
-    print(logger.level)
-    assert logger.isEnabledFor(10)
+    with temp_dir.as_cwd():
+        logger.setLevel("CRITICAL")
+        print(logger.level)
+        assert not logger.isEnabledFor(10)
+        main(argv=["-vvv"])
+        print(logger.level)
+        assert logger.isEnabledFor(10)
 
 
 def test_verbose_vv(temp_dir):
-    from keats.hooks.keats_version_up import logger
-    logger.setLevel("CRITICAL")
-    print(logger.level)
-    assert not logger.isEnabledFor(20)
-    main(argv=["-vv"])
-    print(logger.level)
-    assert logger.isEnabledFor(20)
-    assert not logger.isEnabledFor(10)
+    with temp_dir.as_cwd():
+        logger.setLevel("CRITICAL")
+        print(logger.level)
+        assert not logger.isEnabledFor(20)
+        main(argv=["-vv"])
+        print(logger.level)
+        assert logger.isEnabledFor(20)
+        assert not logger.isEnabledFor(10)
 
 
 def test_verbose_v(temp_dir):
-    from keats.hooks.keats_version_up import logger
-    logger.setLevel("CRITICAL")
-    print(logger.level)
-    assert not logger.isEnabledFor(30)
-    main(argv=["-v"])
-    print(logger.level)
-    assert logger.isEnabledFor(30)
-    assert not logger.isEnabledFor(20)
+    with temp_dir.as_cwd():
+        logger.setLevel("CRITICAL")
+        print(logger.level)
+        assert not logger.isEnabledFor(30)
+        main(argv=["-v"])
+        print(logger.level)
+        assert logger.isEnabledFor(30)
+        assert not logger.isEnabledFor(20)

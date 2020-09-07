@@ -2,7 +2,9 @@ from os.path import abspath
 from os.path import dirname
 from os.path import isfile
 from os.path import join
+
 import pytest
+
 from keats import Keats
 
 

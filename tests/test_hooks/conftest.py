@@ -1,13 +1,13 @@
-
+import os
 import shutil
 from os.path import abspath
 from os.path import dirname
 from os.path import join
-import os
+
 import pytest
 
-from keats.hooks.utils import cmd_output
 from keats.hooks.keats_version_up import logger
+from keats.hooks.utils import cmd_output
 
 logger.setLevel("DEBUG")
 here = dirname(abspath(__file__))
@@ -28,9 +28,8 @@ def temp_git_dir(tmpdir):
 @pytest.fixture
 def temp_dir(temp_git_dir):
     shutil.copy(
-        join(here, "fixtures", "pyproject.toml"),
-        temp_git_dir.join("pyproject.toml"),
+        join(here, "fixtures", "pyproject.toml"), temp_git_dir.join("pyproject.toml"),
     )
-    open(temp_git_dir.join('.fixture'), 'w').write('a'*10)
-    os.mkdir(temp_git_dir.join('fakekeats'))
+    open(temp_git_dir.join(".fixture"), "w").write("a" * 10)
+    os.mkdir(temp_git_dir.join("fakekeats"))
     return temp_git_dir
