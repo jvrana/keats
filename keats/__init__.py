@@ -61,9 +61,12 @@ class Pkg:
             "name": toml_info["name"],
             "title": toml_info["name"],
             "authors": toml_info.get("authors", list()),
-            "repo": toml_info.get("repo", None),
+            "repository": toml_info.get("repository", None),
             "homepage": toml_info.get("homepage", None),
             "description": toml_info.get("description", None),
+            "license": toml_info.get("license", None),
+            "maintainers": toml_info.get("maintainers", None),
+            "readme": toml_info.get("readme", None)
         }
         return pkg_info
 

@@ -12,7 +12,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
 readme = "README.md"
-repo = "https://github.com/jvrana/keats"
+repository = "https://github.com/jvrana/keats"
 homepage = "https://github.com/jvrana/keats"
 documentation = "https://github.com/jvrana/keats"
 
