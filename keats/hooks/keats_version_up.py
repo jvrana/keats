@@ -53,7 +53,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         logger.setLevel("INFO")
     elif args.verbose == 1:
         logger.setLevel("WARNING")
-
+    logger.error("OK?")
     logger.debug("Args: {}".format(args))
     return run(args.filenames)
 
