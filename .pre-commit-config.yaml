@@ -1,6 +1,6 @@
 repos:
 -   repo: https://github.com/jvrana/keats
-    rev: v0.2.29hooks9
+    rev: v0.2.29hooks10
     hooks:
     - id: keats-version-up
 -   repo: https://github.com/psf/black
