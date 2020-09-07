@@ -19,6 +19,7 @@ PYPROJECT = "pyproject.toml"
 def run(filenames):
     retv = 0
     files = {PYPROJECT}
+    logger.error(filenames)
     if files.intersection(set(filenames)):
         logger.error("Updating __version__.py")
         version_up()
