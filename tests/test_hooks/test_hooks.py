@@ -29,6 +29,11 @@ class TestParseArgs:
         assert args.filenames == ["f1", "f2"]
         assert args.verbose == 0
 
+    def test_parse_args_none(self):
+        args = parse_args(argv=None)
+        assert args.filenames == []
+        assert args.verbose == 0
+
     def test_parse_args_v(self):
         args = parse_args(argv=["f1", "f2", "-v"])
         assert args.filenames == ["f1", "f2"]
@@ -120,6 +125,11 @@ def test_update_pyproject(temp_dir):
         with open("fakekeats/__version__.py", "r") as f:
             txt = f.read()
             assert '__version__ = "1.0.0"' in txt or "__version__ = '1.0.0'" in txt
+
+
+def test_pass_none(temp_dir):
+    with temp_dir.as_cwd():
+        main(argv=None)
 
 
 def test_verbose_vvv(temp_dir):
