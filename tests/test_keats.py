@@ -3,11 +3,13 @@ from os.path import dirname
 from os.path import isfile
 from os.path import join
 
+import pytest
+
 from keats import Keats
 
 
 here = join(abspath(dirname(__file__)))
-data = join(here, "data")
+data = join(here, "fixtures")
 
 
 def test_version(fake_keats):
@@ -85,4 +87,5 @@ def test_bump_specific(fake_keats):
 
 def test_no_pyproject_toml(tmpdir):
     tmpdir.mkdir("testpackage")
-    Keats()
+    with pytest.raises(FileNotFoundError):
+        Keats()

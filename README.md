@@ -107,6 +107,18 @@ To clear your change logs:
 poetry run keats changelog clear
 ```
 
+## Pre-commit Hooks
+
+To automatically keep your `__version__.py` file up to date, install the following hook:
+
+```
+repos:
+-   repo: https://github.com/jvrana/keats
+    rev: 0.2.28
+    hooks:
+    - id: keats-version-up
+```
+
 ## Global installation
 
 To install **Keats** globally, run:

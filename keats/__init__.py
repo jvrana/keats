@@ -1,5 +1,6 @@
 import os
 import shutil
+from collections import OrderedDict
 from functools import wraps
 from os.path import abspath
 from os.path import dirname
@@ -14,6 +15,8 @@ from termcolor import cprint
 from .__version__ import __name__
 from .__version__ import __version__
 from .changelog_utils import ChangeLogWriter
+from .utils import write_safe_file
+from .utils import writelines_safe_file
 
 
 PYPROJECT = "pyproject.toml"
@@ -55,15 +58,18 @@ class Pkg:
         return toml.load(self.path)
 
     def config_info(self):
-        toml_info = dict(self.get_config()["tool"]["poetry"])
+        toml_info = OrderedDict(self.get_config()["tool"]["poetry"])
         pkg_info = {
             "version": toml_info["version"],
             "name": toml_info["name"],
             "title": toml_info["name"],
             "authors": toml_info.get("authors", list()),
-            "repo": toml_info.get("repo", None),
+            "repository": toml_info.get("repository", None),
             "homepage": toml_info.get("homepage", None),
             "description": toml_info.get("description", None),
+            "license": toml_info.get("license", None),
+            "maintainers": toml_info.get("maintainers", None),
+            "readme": toml_info.get("readme", None),
         }
         return pkg_info
 
@@ -223,22 +229,53 @@ class Version(Base):
             self.bump(version)
         return self._get("version")
 
+    def _get_version_path(self):
+        return self._pkg.version_py()
+
+    def _exists(self):
+        return isfile(self._get_version_path())
+
+    def _version_str(self):
+        pkg_info = self._pkg.config_info()
+        lines = ["# {}\n".format(VERSIONPY), generated_by_keats + "\n"]
+        for k, v in pkg_info.items():
+            if isinstance(v, str):
+                v = '"{}"'.format(v)
+            lines.append("__{}__ = {}".format(k, v))
+        return "\n".join(lines)
+
+    def _version_changed(self) -> bool:
+        if not isfile(self._get_version_path()):
+            return True
+        with open(self._get_version_path(), "r") as f:
+            existing = f.read()
+
+        lines1 = existing.splitlines()
+        lines2 = self._version_str().splitlines()
+
+        def clean(lines):
+            lines = [l.strip() for l in lines]
+            lines = [l for l in lines if len(l) > 1]
+            lines = [l for l in lines if not l.startswith("#")]
+            lines = [l for l in lines if not l.startswith("'''")]
+            lines = [l for l in lines if not l.startswith('"""')]
+            return lines
+
+        lines1 = clean(lines1)
+        lines2 = clean(lines2)
+
+        return sorted(set(lines1)) != sorted(set(lines2))
+
     @requires_config
     def _write(self, with_confirm=False):
-        pkg_info = self._pkg.config_info()
-        path = self._pkg.version_py()
+        path = self._get_version_path()
         if with_confirm:
             ans = input("Write to '{}'?".format(path))
         else:
             ans = ""
         if ans.strip() == "" or ans.strip().lower() == "y":
-            with open(path, "w") as f:
-                lines = ["# {}\n".format(VERSIONPY), generated_by_keats + "\n"]
-                for k, v in pkg_info.items():
-                    if isinstance(v, str):
-                        v = '"{}"'.format(v)
-                    lines.append("__{}__ = {}\n".format(k, v))
-                f.writelines(lines)
+            if self._version_changed():
+                write_safe_file(path, self._version_str())
         else:
             info("no files written")
 
@@ -315,8 +352,33 @@ class Keats:
     Usage `keats [command] [arguments]`
     """
 
-    def __init__(self, directory=os.getcwd(), filename=PYPROJECT):
+    def __init__(self, directory=None, filename=PYPROJECT):
+        if directory is None:
+            directory = os.getcwd()
         self._pkg = Pkg(str(directory), str(filename))
+        self._validate()
+
+    def _validate(self):
+        self._validate_config()
+        self._validate_pkg_path()
+
+    def _validate_config(self):
+        pkg = self._pkg
+        if not isfile(pkg.path):
+            raise FileNotFoundError(
+                "pyproject.toml was expected at {}".format(pkg.local_path(pkg.path))
+            )
+
+    def _validate_pkg_path(self):
+        pkg = self._pkg
+        pkg_path = pkg.local_path(pkg.package())
+        if not isdir(pkg_path):
+            raise NotADirectoryError(
+                "Expecting package directory '{}'. Make sure this directory is defined "
+                "correctly in `pyproject.toml`. If the package directory is included "
+                "in [tool.poetry.packages], make sure it is the first entry as this "
+                "is where keats expects to find the directory.".format(pkg_path)
+            )
 
     def pkg(self):
         return self._pkg
