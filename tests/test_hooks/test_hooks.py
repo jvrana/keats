@@ -96,6 +96,28 @@ def test_version_changed(temp_dir):
         cmd_output("git", "add", "pyproject.toml")
         assert main(argv=["pyproject.toml"]) == 1
 
+def test_update_pyproject(temp_dir):
+    with temp_dir.as_cwd():
+        assert not isfile(temp_dir.join("fakekeats/__version__.py"))
+        # Should not fail with default
+        keats = Keats()
+        keats.version.up()
+        assert isfile(temp_dir.join("fakekeats/__version__.py"))
+
+        import toml
+        with open('pyproject.toml', 'r') as f:
+            config = toml.load(f)
+
+        config['tool']['poetry']['version'] = '1.0.0'
+        with open('pyproject.toml', 'w') as f:
+            toml.dump(config, f)
+
+        cmd_output("git", "add", "pyproject.toml")
+        assert main(argv=["pyproject.toml"]) == 1
+
+        with open('fakekeats/__version__.py', 'r') as f:
+            txt = f.read()
+            assert '__version__ = "1.0.0"' in txt or "__version__ = '1.0.0'" in txt
 
 def test_verbose_vvv(temp_dir):
     with temp_dir.as_cwd():
