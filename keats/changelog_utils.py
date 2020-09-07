@@ -1,12 +1,6 @@
 import datetime
 import json
-import os
-import shutil
-import tempfile
 from collections import OrderedDict
-from os.path import abspath
-from os.path import basename
-from os.path import dirname
 from os.path import isfile
 
 from .utils import write_safe_file

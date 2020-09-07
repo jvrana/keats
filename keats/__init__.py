@@ -1,5 +1,6 @@
 import os
 import shutil
+from collections import OrderedDict
 from functools import wraps
 from os.path import abspath
 from os.path import dirname
@@ -57,7 +58,7 @@ class Pkg:
         return toml.load(self.path)
 
     def config_info(self):
-        toml_info = dict(self.get_config()["tool"]["poetry"])
+        toml_info = OrderedDict(self.get_config()["tool"]["poetry"])
         pkg_info = {
             "version": toml_info["version"],
             "name": toml_info["name"],
@@ -228,10 +229,16 @@ class Version(Base):
             self.bump(version)
         return self._get("version")
 
+    def _get_version_path(self):
+        return self._pkg.version_py()
+
+    def _exists(self):
+        return isfile(self._get_version_path())
+
     @requires_config
     def _write(self, with_confirm=False):
         pkg_info = self._pkg.config_info()
-        path = self._pkg.version_py()
+        path = self._get_version_path()
         if with_confirm:
             ans = input("Write to '{}'?".format(path))
         else:
@@ -241,7 +248,7 @@ class Version(Base):
             for k, v in pkg_info.items():
                 if isinstance(v, str):
                     v = '"{}"'.format(v)
-                lines.append("__{}__ = {}\n".format(k, v))
+                lines.append("__{}__ = {}".format(k, v))
             writelines_safe_file(path, lines)
         else:
             info("no files written")

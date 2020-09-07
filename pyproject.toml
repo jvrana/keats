@@ -32,6 +32,7 @@ pytest = "^4.1"
 
 [tool.poetry.scripts]
 keats = 'keats:main'
+keats_version_up_hook = 'keats.hooks.keats_version_up:main'
 
 [tool.black]
 line-length = 88
