@@ -1,8 +1,9 @@
 repos:
 -   repo: https://github.com/jvrana/keats
-    rev: v0.2.29hooks11
+    rev: v0.2.29hooks12
     hooks:
     - id: keats-version-up
+      args: ['-vvv']
 -   repo: https://github.com/psf/black
     rev: stable
     hooks:
