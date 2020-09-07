@@ -1,8 +1,9 @@
 import json
-from os.path import isfile, abspath
 import os
 import shutil
 import tempfile
+from os.path import abspath
+from os.path import isfile
 
 
 class TemporaryPath:
@@ -45,8 +46,10 @@ class SafeFileWriter:
 
 
 def write_safe_file(path, txt, comparator=None, mode="w"):
-    """Content is safely written. If content is the same
-    as existing content, do nothing."""
+    """Content is safely written.
+
+    If content is the same as existing content, do nothing.
+    """
     do_write = True
     if isfile(path):
         existing = open(path, "r").read()
@@ -70,6 +73,8 @@ def write_safe_file(path, txt, comparator=None, mode="w"):
 
 
 def writelines_safe_file(path, lines, comparator=None, mode="w"):
-    """Content is safely written. If content is the same
-    as existing content, do nothing."""
+    """Content is safely written.
+
+    If content is the same as existing content, do nothing.
+    """
     return write_safe_file(path, "\n".join(lines), comparator=comparator, mode=mode)
