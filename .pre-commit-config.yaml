@@ -28,6 +28,7 @@ repos:
     -   id: reorder-python-imports
         args: [--py3-plus]
 -   repo: https://github.com/jvrana/keats
-    rev: v0.2.29hooks23
+    rev: v0.2.29hooks24
     hooks:
     - id: keats-version-up
+      args: ['-vvv']

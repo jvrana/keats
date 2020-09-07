@@ -33,11 +33,12 @@ def run(filenames):
     logger.debug("Trigger files: {}".format(trigger_files))
     logger.debug("Triggered files: {}".format(triggered_files))
 
-    keats = Keats()
-    if keats.version._version_changed():
-        logger.info("Version change detected.")
-        keats.version.up()
-        retv = 1
+    if triggered_files:
+        keats = Keats()
+        if keats.version._version_changed():
+            logger.info("Version change detected.")
+            keats.version.up()
+            retv = 1
     else:
         logger.debug("No changes to be made.")
     # else:

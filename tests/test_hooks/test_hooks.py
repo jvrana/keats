@@ -102,13 +102,11 @@ def test_version_changed(temp_dir):
         assert main(argv=["pyproject.toml"]) == 1
 
 
-@pytest.mark.parametrize('line', [
-    '',
-    '\n\n    ',
-    '\n#this is some kind of comment'
-])
+@pytest.mark.parametrize(
+    "line", ["", "\n\n    ", "\n#this is some kind of comment", "\n"]
+)
 def test_version_no_change(temp_dir, line):
-    """Expect no change with just reformatting or comments"""
+    """Expect no change with just reformatting or comments."""
     with temp_dir.as_cwd():
         assert not isfile(temp_dir.join("fakekeats/__version__.py"))
         # Should not fail with default
