@@ -1,7 +1,7 @@
 -   id: keats-version-up
     name: keats-version-up
     description: creates `requirements.txt` file from `pyproject.toml`
-    entry: keats version up
+    entry: keats_version_up_hook
     language: python
     always_run: true
     pass_filenames: true
