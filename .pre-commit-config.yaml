@@ -1,6 +1,6 @@
 repos:
 -   repo: https://github.com/jvrana/keats
-    rev: v0.2.29hooks18
+    rev: v0.2.29hooks19
     hooks:
     - id: keats-version-up
       args: ['-vvv']

@@ -32,5 +32,5 @@ def temp_dir(temp_git_dir):
     )
     open(temp_git_dir.join(".fixture"), "w").write("a" * 10)
     os.mkdir(temp_git_dir.join("fakekeats"))
-    temp_git_dir.join('fakekeats/__init__.py').write('')
+    temp_git_dir.join("fakekeats/__init__.py").write("")
     return temp_git_dir
