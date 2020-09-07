@@ -3,5 +3,5 @@
     description: creates `requirements.txt` file from `pyproject.toml`
     entry: keats_version_up_hook
     language: python
-    always_run: true
+    always_run: false
     pass_filenames: true
