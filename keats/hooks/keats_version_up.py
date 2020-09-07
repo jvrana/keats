@@ -4,12 +4,17 @@ from typing import Optional
 from typing import Sequence
 
 from keats import Keats
+from keats.hooks.utils import added_files
+import os
 
 logger = logging.getLogger("keats_version_up")
+logger.setLevel("DEBUG")
 
 
 def version_up():
+    logger.debug("initializing Keats() at {}".format(os.getcwd()))
     keats = Keats()
+    logger.info("__version__.py at {}".format(keats.version._get_version_path()))
     keats.version.up()
 
 
@@ -18,11 +23,25 @@ PYPROJECT = "pyproject.toml"
 
 def run(filenames):
     retv = 0
-    files = {PYPROJECT}
-    logger.error(filenames)
-    if files.intersection(set(filenames)):
-        logger.error("Updating __version__.py")
-        version_up()
+    trigger_files = {PYPROJECT}
+    _added_files = added_files()
+    files = _added_files & set(filenames)
+    triggered_files = trigger_files.intersection(files)
+
+    logger.debug("Added files: {}".format(_added_files))
+    logger.debug("Pre-commit files: {}".format(set(filenames)))
+    logger.debug("Trigger files: {}".format(trigger_files))
+    logger.debug("Triggered files: {}".format(triggered_files))
+
+    if triggered_files:
+        logger.debug("Version up triggered by {}".format(triggered_files))
+        keats = Keats()
+        if keats.version._version_changed():
+            logger.debug("Version change detected.")
+            keats.version.up()
+            retv = 1
+        else:
+            logger.debug("Version up canceled. No changes to be made.")
     # else:
     #     keats = Keats()
     #     if not keats.version._exists():

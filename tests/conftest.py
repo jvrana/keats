@@ -8,7 +8,7 @@ import pytest
 from keats import Keats
 
 here = join(abspath(dirname(__file__)))
-data = join(here, "data")
+data = join(here, "fixtures")
 
 
 @pytest.fixture(scope="module")
