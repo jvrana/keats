@@ -14,6 +14,8 @@ from termcolor import cprint
 from .__version__ import __name__
 from .__version__ import __version__
 from .changelog_utils import ChangeLogWriter
+from .utils import write_safe_file
+from .utils import writelines_safe_file
 
 
 PYPROJECT = "pyproject.toml"
@@ -66,7 +68,7 @@ class Pkg:
             "description": toml_info.get("description", None),
             "license": toml_info.get("license", None),
             "maintainers": toml_info.get("maintainers", None),
-            "readme": toml_info.get("readme", None)
+            "readme": toml_info.get("readme", None),
         }
         return pkg_info
 
@@ -235,13 +237,12 @@ class Version(Base):
         else:
             ans = ""
         if ans.strip() == "" or ans.strip().lower() == "y":
-            with open(path, "w") as f:
-                lines = ["# {}\n".format(VERSIONPY), generated_by_keats + "\n"]
-                for k, v in pkg_info.items():
-                    if isinstance(v, str):
-                        v = '"{}"'.format(v)
-                    lines.append("__{}__ = {}\n".format(k, v))
-                f.writelines(lines)
+            lines = ["# {}\n".format(VERSIONPY), generated_by_keats + "\n"]
+            for k, v in pkg_info.items():
+                if isinstance(v, str):
+                    v = '"{}"'.format(v)
+                lines.append("__{}__ = {}\n".format(k, v))
+            writelines_safe_file(path, lines)
         else:
             info("no files written")
 

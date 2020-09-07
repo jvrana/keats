@@ -9,6 +9,8 @@ from os.path import basename
 from os.path import dirname
 from os.path import isfile
 
+from .utils import write_safe_file
+
 ENTRY_TEMPLATE = """
 ## {version}
 **{date}**
@@ -16,45 +18,6 @@ ENTRY_TEMPLATE = """
 
 {changes}
 """
-
-
-class TemporaryPath:
-    def __init__(self, path):
-        self.path = path
-        self.existed = isfile(path)
-
-    def __enter__(self):
-        pass
-
-    def __exit__(self, exception_type, exception_value, traceback):
-        if not self.existed and isfile(self.path):
-            os.remove(self.path)
-
-
-class SafeFileWriter:
-    """A safe temporary file will be written.
-
-    If no exceptions occur, the file will be copied to the location in
-    the path. Otherwise, the temp file will be deleted.
-    """
-
-    def __init__(self, path, mode="w"):
-        self.path = abspath(path)
-        prefix = ""
-        suffix = ".safe.backup"
-        _, self.tmp_path = tempfile.mkstemp(prefix=prefix, suffix=suffix)
-        self.file = None
-        self.mode = mode
-
-    def __enter__(self):
-        self.file = open(self.tmp_path, self.mode)
-        return self.file
-
-    def __exit__(self, exception_type, exception_value, traceback):
-        self.file.close()
-        if not exception_type:
-            shutil.copyfile(self.tmp_path, self.path)
-        os.remove(self.tmp_path)
 
 
 class ChangeLogWriter:
@@ -121,12 +84,10 @@ class ChangeLogWriter:
         return s
 
     def save_to_markdown(self):
-        with SafeFileWriter(self.mdpath, "w") as f:
-            f.write(self.to_markdown())
+        write_safe_file(self.mdpath, self.to_markdown())
 
     def write(self, d):
-        with SafeFileWriter(self.path, "w") as f:
-            json.dump(self._sort_changelog(d), f, indent=2)
+        write_safe_file(self.path, json.dumps(self._sort_changelog(d), indent=2))
 
     def update(self, version, description, changes):
         changelog = self.log
