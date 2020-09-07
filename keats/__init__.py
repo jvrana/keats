@@ -249,7 +249,22 @@ class Version(Base):
             return True
         with open(self._get_version_path(), "r") as f:
             existing = f.read()
-        return existing.strip() != self._version_str().strip()
+
+        lines1 = existing.splitlines()
+        lines2 = self._version_str().splitlines()
+
+        def clean(lines):
+            lines = [l.strip() for l in lines]
+            lines = [l for l in lines if len(l) > 1]
+            lines = [l for l in lines if not l.startswith("#")]
+            lines = [l for l in lines if not l.startswith("'''")]
+            lines = [l for l in lines if not l.startswith('"""')]
+            return lines
+
+        lines1 = clean(lines1)
+        lines2 = clean(lines2)
+
+        return sorted(set(lines1)) != sorted(set(lines2))
 
     @requires_config
     def _write(self, with_confirm=False):

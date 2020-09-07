@@ -96,10 +96,31 @@ def test_version_changed(temp_dir):
         assert isfile(temp_dir.join("fakekeats/__version__.py"))
 
         with open(temp_dir.join("fakekeats/__version__.py"), "a") as f:
-            f.writelines(["# this is an extra line"])
+            f.writelines(["x = 1"])
 
         cmd_output("git", "add", "pyproject.toml")
         assert main(argv=["pyproject.toml"]) == 1
+
+
+@pytest.mark.parametrize('line', [
+    '',
+    '\n\n    ',
+    '\n#this is some kind of comment'
+])
+def test_version_no_change(temp_dir, line):
+    """Expect no change with just reformatting or comments"""
+    with temp_dir.as_cwd():
+        assert not isfile(temp_dir.join("fakekeats/__version__.py"))
+        # Should not fail with default
+        keats = Keats()
+        keats.version.up()
+        assert isfile(temp_dir.join("fakekeats/__version__.py"))
+
+        with open(temp_dir.join("fakekeats/__version__.py"), "a") as f:
+            f.writelines([line])
+
+        cmd_output("git", "add", "pyproject.toml")
+        assert main(argv=["pyproject.toml"]) == 0
 
 
 def test_update_pyproject(temp_dir):
