@@ -19,11 +19,11 @@ PYPROJECT = "pyproject.toml"
 def run(filenames):
     retv = 0
     files = {PYPROJECT}
-    # if files.intersection(set(filenames)):
-    #     logger.info("Updating __version__.py")
-    #     keats = Keats()
-    #     version = keats.version.up()
-    #     logger.info("Updated to version {}".format(version))
+    if files.intersection(set(filenames)):
+        logger.info("Updating __version__.py")
+        keats = Keats()
+        version = keats.version.up()
+        logger.info("Updated to version {}".format(version))
     # else:
     #     keats = Keats()
     #     if not keats.version._exists():
