@@ -1,9 +1,4 @@
 repos:
--   repo: https://github.com/jvrana/keats
-    rev: v0.2.29hooks13
-    hooks:
-    - id: keats-version-up
-      args: ['-vvv']
 -   repo: https://github.com/psf/black
     rev: stable
     hooks:
@@ -32,3 +27,8 @@ repos:
     hooks:
     -   id: reorder-python-imports
         args: [--py3-plus]
+-   repo: https://github.com/jvrana/keats
+    rev: v0.2.29hooks14
+    hooks:
+    - id: keats-version-up
+      args: ['-vvv']
