@@ -66,7 +66,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     logger.error("main: argv: {}".format(argv))
     args = parse_args(argv)
     if args is None:
-        return 1
+        logger.error("No arguments passed.")
+        return 0
     if args.verbose == 3:
         logger.setLevel("DEBUG")
     elif args.verbose == 2:
