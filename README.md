@@ -1,5 +1,8 @@
 # Keats
 [![PyPI version](https://badge.fury.io/py/keats.svg)](https://badge.fury.io/py/keats)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/jvrana/keats.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jvrana/keats/context:python)
+
 
 ![John Keats](assets/keats.jpg)
 
